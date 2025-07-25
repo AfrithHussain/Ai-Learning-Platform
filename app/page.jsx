@@ -1,11 +1,15 @@
+
+import { Button } from '@/components/ui/button';
 import React from 'react'
-import { Button } from "@/components/ui/button"
+
 function Home() {
+ 
   return (
-    <div>
+    <div className='mt-32 text-xl p-10 text-center'>
         
-      <h1 className=''>hello world</h1>
-      
+      <h1 className='text-5xl font-bold'>hello world</h1>
+      <Button className="mt-10">its me</Button>
+   
     </div>
   )
 }
