@@ -25,6 +25,8 @@ import {
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 
+import AddCourseDialogBox from "./AddCourseDialogBox";
+
 function AppSideBar() {
   const navLinks = [
     {
@@ -68,7 +70,11 @@ function AppSideBar() {
         </SidebarHeader>
         <SidebarContent>
           <SidebarGroup>
-            <Button className={'mt-1'}>Create a Course</Button>
+             <AddCourseDialogBox>
+                 <Button className={'mt-1'}>Create a Course</Button>
+             </AddCourseDialogBox>
+             
+           
           </SidebarGroup>
           <SidebarGroup>
             <SidebarGroupContent>
