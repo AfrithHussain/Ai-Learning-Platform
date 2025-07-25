@@ -16,7 +16,7 @@ import { Button } from "@/components/ui/button";
 import {
   Book,
   CircleUserRound,
-  icons,
+  
   LayoutDashboard,
   LucidePanelRightOpen,
   PencilRuler,
@@ -64,7 +64,7 @@ function WorkSpace() {
     <div>
       <Sidebar>
         <SidebarHeader className={'ml-10 mt-1 '}>
-          <Image width={130} height={130} src={"/logo.svg"} />
+          <Image alt="logo" width={130} height={130} src={"/logo.svg"} />
         </SidebarHeader>
         <SidebarContent>
           <SidebarGroup>
