@@ -22,6 +22,7 @@ import { Button } from "@/components/ui/button";
 import axios from "axios";
 import { v4 as uuidv4 } from 'uuid';
 import { Loader2Icon, Sparkle } from "lucide-react";
+import { useRouter } from "next/navigation";
 function AddCourseDialogBox({ children }) {
   const [courseForm, setCourseForm] = useState({
     name: "",
@@ -33,6 +34,8 @@ function AddCourseDialogBox({ children }) {
   });
 
   const [loading, setLoading] = useState(false)
+
+  const coursePath = useRouter()
 
   const handleFormInput = (field, value) => {
     setCourseForm((prev) => ({
@@ -50,6 +53,8 @@ function AddCourseDialogBox({ children }) {
       courseId: courseId
     })
      console.log(result.data)
+
+     coursePath.push('/workspace/edit-course' + result?.data?.courseId)
     
     }
     catch (e){

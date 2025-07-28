@@ -18,5 +18,6 @@ export const courseList = pgTable("courses", {
   level: varchar().notNull(),
   category: varchar(),
   courseJson : json(),
-  email: varchar('userTable').references(()=> usersTable.email).notNull()
+  email: varchar('userTable').references(()=> usersTable.email).notNull(),
+  imagePrompt: varchar().default('')
 })
