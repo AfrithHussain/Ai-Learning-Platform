@@ -30,7 +30,10 @@ Schema: {
 }
 }
 `
- 
+
+export const ai = new GoogleGenAI({
+    apiKey: process.env.GEMINI_API_KEY,
+  });
 export async function POST(req) {
     const user =await currentUser()
 
@@ -41,9 +44,7 @@ export async function POST(req) {
     // To run this code you need to install the following dependencies:
 // npm install @google/genai mime
     
-   const ai = new GoogleGenAI({
-    apiKey: process.env.GEMINI_API_KEY,
-  });
+
   const tools = [
     {
       googleSearch: {

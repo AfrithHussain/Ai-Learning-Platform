@@ -54,7 +54,7 @@ function AddCourseDialogBox({ children }) {
     })
      console.log(result.data)
 
-     coursePath.push('/workspace/edit-course' + result?.data?.courseId)
+     coursePath.push('/workspace/edit-course/' + result?.data?.courseId)
     
     }
     catch (e){
