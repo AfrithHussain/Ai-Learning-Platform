@@ -18,6 +18,7 @@ function CourseChapters({ courseData }) {
 
         {/* Chapter box */}
         <div className="bg-white shadow-sm border border-blue-100 rounded-md px-3 py-4 sm:px-5 sm:py-6">
+          <h1 className='text-base sm:text-xl md:text-2xl font-bold text-blue-700 mb-1'>Chapter {index + 1}</h1>
           <h3 className="text-base sm:text-xl font-semibold text-blue-700 mb-1">
            {chapter.chapterName}
           </h3>

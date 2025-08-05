@@ -2,8 +2,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import Provider from "./provider";
-
-
+import {Toaster} from "@/components/ui/sonner"
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -21,19 +20,23 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <ClerkProvider>
-    <html lang="en">
+    // The ClerkProvider should wrap the content INSIDE the body tag.
+    // The <html> and <body> tags should be at the top level.
+    <html lang="en" suppressHydrationWarning={true}>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased overflow-x-hidden`}
       >
-        <Provider>
-          {children}
+        <ClerkProvider>
+          <Provider>
+            <main>{children}</main>
+         </Provider>
+
+         <Toaster/>
+          
         
-        </Provider>
+        </ClerkProvider>
+        
       </body>
-      
     </html>
-    </ClerkProvider>
- 
   );
 }

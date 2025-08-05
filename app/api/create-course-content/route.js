@@ -1,10 +1,16 @@
 import { NextResponse } from "next/server";
 import { ai } from "../create-course-layout/route";
+import axios from "axios";
+import { db } from "@/config/db";
+import { courseList } from "@/config/schema";
+import { eq } from "drizzle-orm";
 
 const PROMPT = `
 You are an expert learning content generator.
 
-Given a chapter object (with chapter name and topics), generate an HTML formatted explanation for each topic. Return the final response in **JSON** format as described below:
+Given a chapter object (with chapter name and topics), generate an HTML formatted explanation for each topic. Return the final response in **JSON** format as described below.
+
+Ensure your entire response is ONLY a single, valid JSON object, with no extra text or markdown formatting like \`\`\`json before or after it.
 
 Schema:
 {
@@ -22,79 +28,102 @@ Return ONLY the JSON. Here is the input:
 
 function safeParseJSON(jsonStr) {
   try {
-    // Replace smart quotes and clean unwanted code blocks
     const cleaned = jsonStr
-      .replace(/[“”]/g, '"') // smart quotes to normal quotes
+      .replace(/[“”]/g, '"')
       .replace(/[‘’]/g, "'")
-      .replace(/```json|```/g, '') // strip code fences
-      .replace(/,\s*}/g, '}') // trailing commas in objects
-      .replace(/,\s*]/g, ']'); // trailing commas in arrays
-    return JSON.parse(cleaned);
+      .replace(/```json|```/g, '')
+      .replace(/,\s*}/g, '}')
+      .replace(/,\s*]/g, ']');
+    return JSON.parse(cleaned.trim());
   } catch (err) {
     console.error("JSON parsing failed:", err.message);
     return null;
   }
 }
 
-export async function POST(req) {
-  const { courseTitle, courseId, courseJson } = await req.json();
+const Youtube_URL = 'https://www.googleapis.com/youtube/v3/search';
 
-  const tools = [
-    {
-      googleSearch: {},
-    },
-  ];
-
-  const promises = courseJson?.chapters.map(async (chapter) => {
-  const config = {
-    thinkingConfig: {
-      thinkingBudget: -1,
-    },
-    tools,
-  };
-
-  const model = "gemini-2.5-flash";
-  const contents = [
-    {
-      role: "user",
-      parts: [
-        {
-          text: PROMPT + JSON.stringify(chapter),
-        },
-      ],
-    },
-  ];
-
-  const response = await ai.models.generateContent({
-    model,
-    config,
-    contents,
-  });
-
-  const rawText = response.candidates?.[0]?.content?.parts?.[0]?.text || "";
-  const parsed = safeParseJSON(rawText);
-
-  if (!parsed) {
-    console.error("==== Failed to parse Gemini response ====");
-    console.log("Chapter:", chapter.chapterName);
-    console.log("Raw Gemini response:", rawText);
-    return {
-      chapterName: chapter.chapterName,
-      topics: chapter.topics.map((t) => ({
-        topic: t,
-        content: "<p>Failed to generate content. Please try again later.</p>",
-      })),
+const getYoutubeVideos = async (topic) => {
+  try {
+    const params = {
+      part: 'snippet',
+      maxResults: '5',
+      q: `${topic} tutorial explanation`,
+      type: 'video',
+      key: process.env.YOUTUBE_API_KEY
     };
+    const resp = await axios.get(Youtube_URL, { params });
+    const youtubeVideoRespList = resp.data.items || [];
+    return youtubeVideoRespList.map(item => ({
+      videoId: item?.id?.videoId,
+      title: item?.snippet?.title
+    }));
+  } catch (error) {
+    console.error(`Failed to fetch YouTube videos for topic: ${topic}`, error.response?.data || error.message);
+    return []; 
   }
-
-  return parsed;
-});
+};
 
 
-  const courseContent = await Promise.all(promises);
+export async function POST(req) {
+  try {
+    const { courseTitle, courseId, courseJson } = await req.json();
 
-  return NextResponse.json({
-    courseName: courseTitle,
-    courseContent,
-  });
+    if (!courseJson?.chapters || !courseId) {
+        return NextResponse.json({ error: "Missing required fields: courseJson.chapters or courseId" }, { status: 400 });
+    }
+
+    const promises = courseJson.chapters.map(async (chapter) => {
+      // AI Call
+      const contents = [{ role: "user", parts: [{ text: PROMPT + JSON.stringify(chapter) }] }];
+      const response = await ai.models.generateContent({
+        model: "gemini-2.5-flash",
+        contents,
+      });
+      const rawText = response.candidates?.[0]?.content?.parts?.[0]?.text || "";
+      const parsedContent = safeParseJSON(rawText);
+
+      // ✅ CORRECTED LOGIC IS HERE
+      let chapterData; // Use 'let' to allow reassignment
+      if (!parsedContent) {
+        // This block ONLY prepares the fallback data. It does NOT return.
+        console.error("==== Failed to parse Gemini response for chapter:", chapter.chapterName);
+        chapterData = {
+          chapterName: chapter.chapterName,
+          topics: chapter.topics.map((t) => ({
+            topic: t.topic, 
+            content: "<p>Failed to generate content. Please try again later.</p>",
+          })),
+        };
+      } else {
+        // If successful, use the parsed content
+        chapterData = parsedContent;
+      }
+
+      // Every path (success or failure) continues to this point
+      const youtubeVideos = await getYoutubeVideos(chapter.chapterName);
+
+      // The SINGLE return statement ensures a consistent object shape every time
+      return {
+          courseData: chapterData,
+          youtubeVideo: youtubeVideos,
+      };
+    });
+
+    const courseContent = await Promise.all(promises);
+    
+    await db.update(courseList)
+      .set({ courseDataContent: JSON.stringify(courseContent) }) 
+      .where(eq(courseList.cid, courseId));
+
+    return NextResponse.json({
+      message: "Course generated successfully!",
+      chapterName: courseTitle,
+      courseContent,
+    }, { status: 200 });
+
+  } catch (error) {
+    console.error("🔥 A critical error occurred in create-course-content:", error);
+    return NextResponse.json({ error: "An internal server error occurred.", details: error.message }, { status: 500 });
+  }
 }

@@ -7,6 +7,8 @@ function page() {
     <div>
       <WelcomeBanner/>
       <CourseList/>
+      
+     
     </div>
   )
 }

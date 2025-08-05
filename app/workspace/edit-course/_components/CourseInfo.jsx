@@ -3,10 +3,14 @@ import { Button } from '@/components/ui/button';
 import axios from 'axios';
 import { Book, Clock, IndentIncrease, Settings } from 'lucide-react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+
 import React, {  useState } from 'react';
+import { toast } from 'sonner';
 
 function CourseInfo({ courseData }) {
     const [isLoading, setIsLoading] = useState(false)
+    const router = useRouter()
 
 
 
@@ -29,12 +33,17 @@ function CourseInfo({ courseData }) {
         courseJson: courseList,
         })
 
+
         console.log(result.data)
         setIsLoading(false)
+        router.replace('/workspace')
+        toast.success('Course Generated Sucessfully')
     }
     catch(e){
         setIsLoading(false)
         console.log(e)
+        toast.success('Server Side Error, Try Again! ')
+
         
     }
      
