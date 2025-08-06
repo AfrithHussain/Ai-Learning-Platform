@@ -7,8 +7,9 @@ function page() {
   return (
     <div>
       <WelcomeBanner/>
-      <CourseList/>
       <EnrollCourseList/>
+      <CourseList/>
+      
       
      
     </div>
