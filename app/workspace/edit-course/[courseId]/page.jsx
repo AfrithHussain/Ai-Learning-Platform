@@ -6,7 +6,7 @@ import React, { useEffect, useState } from 'react';
 import CourseInfo from '../_components/CourseInfo';
 import CourseChapters from '../_components/CourseChapters';
 
-function EditCourse() {
+function EditCourse({viewCourse=false}) {
      
     const [isLoading, setIsLoading] = useState(false);
     const [courseData, setCourseData] = useState()
@@ -23,7 +23,7 @@ function EditCourse() {
     const courseDataHandler = async () => {
         try {
             setIsLoading(true)
-            const result = await axios.get('/api/get-course?courseId=' + courseId);
+            const result = await axios.get('/api/get-course?courseId='+courseId);
             console.log(result.data);
             setCourseData(result.data)
         } catch (error) {
@@ -34,7 +34,7 @@ function EditCourse() {
 
     return (
         <div>
-            <CourseInfo courseData={courseData}/>
+            <CourseInfo viewCourse={viewCourse} courseData={courseData}/>
             <CourseChapters courseData={courseData}/>
 
         </div>

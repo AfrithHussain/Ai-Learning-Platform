@@ -1,14 +1,15 @@
 "use client"
 import { Button } from '@/components/ui/button';
 import axios from 'axios';
-import { Book, Clock, IndentIncrease, Settings } from 'lucide-react';
+import { Book, Clock, IndentIncrease, PlayCircle, Settings } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 import React, {  useState } from 'react';
 import { toast } from 'sonner';
 
-function CourseInfo({ courseData }) {
+function CourseInfo({ courseData, viewCourse }) {
     const [isLoading, setIsLoading] = useState(false)
     const router = useRouter()
 
@@ -88,7 +89,8 @@ function CourseInfo({ courseData }) {
             </div>
           </div>
         </div>
-        <Button disabled={isLoading} onClick = {generateCourseContentHandler} className={'items-center flex w-fit p-6  mx-auto md:mx-0 md:w-xs   md:p-0 '}>{isLoading ? <Settings className="animate-spin"/> : <Settings/> } Generate Course</Button>
+     {!viewCourse ? <Button disabled={isLoading} onClick = {generateCourseContentHandler} className={'items-center flex w-fit p-6  mx-auto md:mx-0 md:w-xs   md:p-0 '}>{isLoading ? <Settings className="animate-spin"/> : <Settings/> } Generate Course</Button> :
+     <Link href={'/course/' + courseData?.cid }><Button><PlayCircle/> Continue Learning</Button></Link>}
       </div>
 
       {/* Right content (image) */}

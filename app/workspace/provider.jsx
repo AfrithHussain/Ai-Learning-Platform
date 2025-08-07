@@ -6,7 +6,7 @@ import AppHeader from './_components/AppHeader'
 
 
 
-function WorkspaceProvider({children}) {
+function WorkspaceProvider({children,getSideBar=false}) {
   return (
     <div>
        <SidebarProvider>

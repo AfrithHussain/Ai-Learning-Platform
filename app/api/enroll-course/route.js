@@ -33,10 +33,23 @@ import { NextResponse } from "next/server";
 
 export async function GET(req){
     const user =await currentUser();
+     const {searchParams} = new URL(req.url);
+    
 
-    const result = await db.select().from(courseList).innerJoin(enrollCourseTable,eq(courseList.cid, enrollCourseTable.cid))
+    const courseId = searchParams.get('courseId');
+  if(courseId){
+      const result = await db.select().from(courseList).innerJoin(enrollCourseTable,eq(courseList.cid, enrollCourseTable.cid))
+    .where(and(eq(enrollCourseTable.email, user?.primaryEmailAddress?.emailAddress),eq(enrollCourseTable.cid,courseId)))
+    .orderBy(desc(enrollCourseTable.cid));
+
+    return NextResponse.json(result[0])
+  }
+  else{
+     const result = await db.select().from(courseList).innerJoin(enrollCourseTable,eq(courseList.cid, enrollCourseTable.cid))
     .where(eq(enrollCourseTable.email, user?.primaryEmailAddress?.emailAddress))
     .orderBy(desc(enrollCourseTable.cid));
 
     return NextResponse.json(result)
+  }
+    
 }

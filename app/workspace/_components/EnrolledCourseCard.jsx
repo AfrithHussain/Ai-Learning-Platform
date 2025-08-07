@@ -54,7 +54,7 @@ function EnrolledCourseCard({ courseData , key}) {
               <Progress value={40}/>
             </div>
 
-              <Link href={'/workspace/course/' + courseData.courses.cid}>
+              <Link href={'/workspace/view-course/' + courseData.courses.cid}>
               <Button className={'w-full'}><PlayCircle/> Continue Learning</Button>
            </Link>
         </div>
