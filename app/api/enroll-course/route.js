@@ -53,3 +53,21 @@ export async function GET(req){
   }
     
 }
+
+export async function PUT(req) {
+  const user = await currentUser();
+  const { chaptersCompleted, courseId } = await req.json();
+
+  const markDb = await db
+    .update(enrollCourseTable)
+    .set({ chaptersCompleted }) // ✅ directly store JSON object
+    .where(
+      and(
+        eq(enrollCourseTable.cid, courseId),
+        eq(enrollCourseTable.email, user?.primaryEmailAddress?.emailAddress)
+      )
+    )
+    .returning(enrollCourseTable);
+
+  return NextResponse.json(markDb);
+}

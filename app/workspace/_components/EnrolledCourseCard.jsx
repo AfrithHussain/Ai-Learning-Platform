@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge'; // Note: ShadCN Badge is typically imported like this
-import { Database, PlayCircle } from 'lucide-react';
+
+import {  PlayCircle } from 'lucide-react';
 import Image from 'next/image';
 import React from 'react';
 import { Progress } from '@/components/ui/progress';
@@ -21,14 +21,22 @@ function EnrolledCourseCard({ courseData , key}) {
         );
     }
 
-    const calculateChapterComplted = ()=>{
-      return (courseData?.enrollCourse?.length ?? 0 / courseData.courses?.courseDataContent?.length) * 100
-    }
+    const calculateChapterCompleted = () => {
+  const completedChapters = Object.values(courseData?.enrollCourse?.chaptersCompleted || {})
+    .filter(Boolean).length; // Count only 'true' values
+  
+  const totalChapters = courseData?.courses?.courseDataContent?.length || 0;
+
+  if (totalChapters === 0) return 0;
+
+  return Math.round((completedChapters / totalChapters) * 100);
+};
+
 
     return (
         <div key={key}
-            className="
-                border rounded-lg p-4 flex flex-col h-full
+            className=" 
+                border rounded-lg w-80 p-4 flex flex-col h-full
                 hover:shadow-lg transition-shadow duration-200
             "
         >
@@ -49,10 +57,12 @@ function EnrolledCourseCard({ courseData , key}) {
             </div>
 
             <div className="mb-3">
-              <h2 className='flex items-center justify-between text-primary mt-2 mb-1'>progress <span>{calculateChapterComplted()}%</span></h2>
+  <h2 className='flex items-center justify-between text-primary mt-2 mb-1'>
+    progress <span>{calculateChapterCompleted()}%</span>
+  </h2>
+  <Progress value={calculateChapterCompleted()} />
+</div>
 
-              <Progress value={40}/>
-            </div>
 
               <Link href={'/workspace/view-course/' + courseData.courses.cid}>
               <Button className={'w-full'}><PlayCircle/> Continue Learning</Button>

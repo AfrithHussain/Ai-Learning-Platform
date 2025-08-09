@@ -23,7 +23,10 @@ import axios from "axios";
 import { v4 as uuidv4 } from 'uuid';
 import { Loader2Icon, Sparkle } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+
 function AddCourseDialogBox({ children }) {
+  const [open, setOpen] = useState(false); // Dialog open/close state
   const [courseForm, setCourseForm] = useState({
     name: "",
     description: "",
@@ -33,9 +36,8 @@ function AddCourseDialogBox({ children }) {
     category: "",
   });
 
-  const [loading, setLoading] = useState(false)
-
-  const coursePath = useRouter()
+  const [loading, setLoading] = useState(false);
+  const coursePath = useRouter();
 
   const handleFormInput = (field, value) => {
     setCourseForm((prev) => ({
@@ -44,37 +46,37 @@ function AddCourseDialogBox({ children }) {
     }));
   };
 
-  const handleFormClick = async() => {
-    const courseId = uuidv4()
-     setLoading(true); 
-    try{
-           const result = await axios.post('/api/create-course-layout', {
-      ...courseForm,
-      courseId: courseId
-    })
-     console.log(result.data)
+  const handleFormClick = async () => {
+    const courseId = uuidv4();
+    setLoading(true); 
+    try {
+      const result = await axios.post('/api/create-course-layout', {
+        ...courseForm,
+        courseId: courseId
+      });
 
-     coursePath.push('/workspace/edit-course/' + result?.data?.courseId)
-    
-    }
-    catch (e){
-     
-      console.log(e)
-    }
-    finally{ 
-       setLoading(false);
+      console.log(result.data);
 
+      if (result.data.resp === 'limit reached') {
+        toast.warning('Please Subscribe to plan');
+        setOpen(false); // Close dialog when limit reached
+        coursePath.replace('/workspace/billing');
+        return; // Stop here
+      }
+
+      setOpen(false); // Close dialog on success
+      coursePath.push('/workspace/edit-course/' + result?.data?.courseId);
+
+    } catch (e) {
+      console.log(e);
+    } finally { 
+      setLoading(false);
     }
     console.log("Generated UUID:", courseId);
-  
   };
 
-
-
- 
-
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -82,12 +84,12 @@ function AddCourseDialogBox({ children }) {
           <DialogDescription>Fill the details to get started</DialogDescription>
         </DialogHeader>
 
-        <div className=" flex flex-col justify-center gap-4 ">
+        <div className="flex flex-col justify-center gap-4">
           <div>
             <label htmlFor="">Course Name</label>
             <Input
               onChange={(e) => handleFormInput("name", e.target.value)}
-              className={"mt-2"}
+              className="mt-2"
               placeholder="enter the course name"
             />
           </div>
@@ -96,7 +98,7 @@ function AddCourseDialogBox({ children }) {
             <label htmlFor="">Course Description (optional)</label>
             <Textarea
               onChange={(e) => handleFormInput("description", e.target.value)}
-              className={"mt-2"}
+              className="mt-2"
               placeholder="enter the course description"
             />
           </div>
@@ -104,11 +106,9 @@ function AddCourseDialogBox({ children }) {
           <div>
             <label htmlFor="">No of Chapters</label>
             <Input
-              onChange={(e) =>
-                handleFormInput("noOfChapters", Number(e.target.value))
-              }
-              className={"mt-2"}
-              type={"number"}
+              onChange={(e) => handleFormInput("noOfChapters", Number(e.target.value))}
+              className="mt-2"
+              type="number"
             />
           </div>
 
@@ -117,20 +117,20 @@ function AddCourseDialogBox({ children }) {
             <Switch
               checked={courseForm.includeVideo}
               onCheckedChange={() =>
-                handleFormInput("includeVideo", !courseForm?.includeVideo)
+                handleFormInput("includeVideo", !courseForm.includeVideo)
               }
             />
           </div>
 
           <div>
-            <label htmlFor=""> Diffuculty Level</label>
+            <label htmlFor="">Difficulty Level</label>
             <Select onValueChange={(value) => handleFormInput("level", value)}>
               <SelectTrigger className="w-[180px] mt-2">
                 <SelectValue placeholder="Difficulty Level" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="beginner">Beginner</SelectItem>
-                <SelectItem value="intermidate">Intermidate</SelectItem>
+                <SelectItem value="intermidate">Intermediate</SelectItem>
                 <SelectItem value="advance">Advanced</SelectItem>
               </SelectContent>
             </Select>
@@ -140,13 +140,13 @@ function AddCourseDialogBox({ children }) {
             <label htmlFor="">Category</label>
             <Input
               onChange={(e) => handleFormInput("category", e.target.value)}
-              className={"mt-2"}
+              className="mt-2"
               placeholder="Category (Separate by comma)"
             />
           </div>
 
-          <Button disabled={loading} onClick={() => handleFormClick()} className={"mt-2"}>
-           {loading ? <Loader2Icon className="animate-spin"/> : <Sparkle/> } Generate Course
+          <Button disabled={loading} onClick={handleFormClick} className="mt-2">
+            {loading ? <Loader2Icon className="animate-spin" /> : <Sparkle />} Generate Course
           </Button>
         </div>
       </DialogContent>

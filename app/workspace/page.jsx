@@ -3,7 +3,7 @@ import WelcomeBanner from './_components/WelcomeBanner'
 import CourseList from './_components/CourseList'
 import EnrollCourseList from './_components/EnrollCourseList'
 
-function page() {
+function Work() {
   return (
     <div>
       <WelcomeBanner/>
@@ -16,4 +16,4 @@ function page() {
   )
 }
 
-export default page
+export default Work

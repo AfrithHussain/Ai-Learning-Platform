@@ -42,13 +42,9 @@ function AppSideBar() {
     {
       title: "Explore Courses",
       icons: Book,
-      path: "/workspace/courses",
+      path: "/workspace/explore-courses",
     },
-    {
-      title: "AI Tools",
-      icons: PencilRuler,
-      path: "/workspace/ai-tools",
-    },
+   
     {
       title: "Billing",
       icons: ReceiptIndianRupee,

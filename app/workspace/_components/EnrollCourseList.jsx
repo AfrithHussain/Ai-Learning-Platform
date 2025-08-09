@@ -22,15 +22,17 @@ function EnrollCourseList() {
   return enrolledCourse?.length > 0 && (
     <div>
       <h2 className='text-xl font-semibold mt-4'>Continue your learning progress </h2>
-      {
+    <div className="flex flex-wrap gap-5">
+        {
         enrolledCourse.map((data,index)=>{
         return  ( 
-            <div className='mt-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6' key={data.enrollCourse.cid}>
+            <div className='mt-3  gap-6  ' key={data.enrollCourse.cid}>
               <EnrolledCourseCard courseData={data}/>
             </div>
         )
         })
       }
+    </div>
     </div>
   )
 }

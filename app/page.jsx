@@ -1,18 +1,30 @@
+"use client";
+import { useEffect } from "react";
+import { SignedOut, SignIn, SignInButton, useUser } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
+import {Button} from '../components/ui/button'
 
-import { Button } from '@/components/ui/button';
-import React from 'react'
+export default function Home() {
+  const { isSignedIn } = useUser();
+  const router = useRouter();
 
-function Home() {
- 
+  useEffect(() => {
+    if (isSignedIn) {
+      router.push("/workspace");
+    }
+  }, [isSignedIn, router]);
+
   return (
-    <div className='mt-32 text-xl p-10 text-center'>
-        
-      <h1 className='text-5xl font-bold'>hello world</h1>
-      <Button className="mt-10">its me</Button>
-      
-   
+    <div className="text-center p-10">
+      <SignedOut>
+        <SignInButton >
+          <button className="text-2xl bg-blue-600 text-white p-2 rounded-md  cursor-pointer active:bg-blue-300" >Sign In</button >
+        </SignInButton>
+      </SignedOut>
+      <h1 className="text-5xl font-bold mt-10">
+        Here should be the Landing page design
+      </h1>
+    
     </div>
-  )
+  );
 }
-
-export default Home;
