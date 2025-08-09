@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { ai } from "../create-course-layout/route";
+
 import axios from "axios";
 import { db } from "@/config/db";
 import { courseList } from "@/config/schema";
@@ -66,6 +66,9 @@ const getYoutubeVideos = async (topic) => {
 
 
 export async function POST(req) {
+    const ai = new GoogleGenAI({
+    apiKey: process.env.GEMINI_API_KEY,
+  });
   try {
     const { courseTitle, courseId, courseJson } = await req.json();
 

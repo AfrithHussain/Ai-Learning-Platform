@@ -82,14 +82,18 @@ function AppSideBar() {
                   
                   >
                     <SidebarMenuItem className={"p-2"}>
-                      <SidebarMenuButton    className={`hover:bg-neutral-200  ${
-                      path?.includes(item.path) && "bg-neutral-200"
-                    }`} asChild>
-                        <div className="flex items-center gap-2 w-full text-left ">
-                          <item.icons />
-                          <span>{item.title}</span>
-                        </div>
-                      </SidebarMenuButton>
+                     <SidebarMenuButton
+  className={`hover:bg-neutral-200 ${
+    path === item.path ? "bg-neutral-200" : ""
+  }`}
+  asChild
+>
+  <div className="flex items-center gap-2 w-full text-left">
+    <item.icons />
+    <span>{item.title}</span>
+  </div>
+</SidebarMenuButton>
+
                     </SidebarMenuItem>
                   </Link>
                 ))}
