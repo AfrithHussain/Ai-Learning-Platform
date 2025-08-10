@@ -7,7 +7,7 @@ function Work() {
   return (
     <div>
       <WelcomeBanner/>
-      <EnrollCourseList/>
+      
       <CourseList/>
       
       

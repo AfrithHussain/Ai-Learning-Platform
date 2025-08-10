@@ -24,7 +24,7 @@ function courseContent() {
     }
   return (
     <div className="">
-        <AppHeader hideSideBar = {true}/>
+        <AppHeader hideSideBar = {true} showBtn={true} />
         <div className='flex gap-5 '>
         <ChapterSideBar courseData={courseContentData}/>
         <ChapterContent refreshData={()=>enrollCourseListHandlerById()} courseData={courseContentData}/>

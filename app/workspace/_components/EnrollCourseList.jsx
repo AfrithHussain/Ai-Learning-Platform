@@ -4,8 +4,11 @@ import React, { useEffect, useState } from 'react'
 import EnrolledCourseCard from './EnrolledCourseCard';
 
 
+
+
 function EnrollCourseList() {
    const [enrolledCourse, setEnrolledCourse] = useState([]);
+
 
 
     useEffect(()=>{
@@ -15,6 +18,7 @@ function EnrollCourseList() {
     const enrollCourseListHandler = async ()=>{
         const result = await axios.get('/api/enroll-course');
         setEnrolledCourse(result.data)
+        
         console.log(result.data)
 
     }

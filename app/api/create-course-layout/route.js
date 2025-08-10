@@ -32,12 +32,12 @@ Schema: {
 }
 `
 
-
-export async function POST(req) {
-    const ai = new GoogleGenAI({
+export const ai = new GoogleGenAI({
     apiKey: process.env.GEMINI_API_KEY,
   });
-
+export async function POST(req) {
+    
+  
     const user =await currentUser()
      const { has } = await auth()
 

@@ -6,12 +6,15 @@ import Link from "next/link"; // For making the card clickable
 import React, { useState } from "react";
 import axios from "axios";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 function CourseCard({ course }) {
  
 
    const [loading, setLoading] = useState(false)
+   
 
+   const router = useRouter()
 
     // Renamed prop to 'course' for clarity
   // Destructuring for easier access to nested data
@@ -24,12 +27,16 @@ function CourseCard({ course }) {
           setLoading(true)
         const result = await axios.post('/api/enroll-course', {
         courseId: course?.cid });
-       
+      
          setLoading(false)
+         
+
          console.log(result.data)
          if(result.data.res)  toast.success("course already enrolled")
-          else  toast.success("course enrolled")
-
+          else{
+        router.replace('/workspace/my-learning')
+          toast.success("course enrolled")
+}
         
 
       }
