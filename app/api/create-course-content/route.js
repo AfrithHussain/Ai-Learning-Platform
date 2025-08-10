@@ -1,9 +1,10 @@
 import { NextResponse } from "next/server";
-import { ai } from "../create-course-layout/route";
+
 import axios from "axios";
 import { db } from "@/config/db";
 import { courseList } from "@/config/schema";
 import { eq } from "drizzle-orm";
+import { ai } from "@/lib/ai";
 
 const PROMPT = `
 You are an expert learning content generator.
