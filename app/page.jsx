@@ -1,8 +1,9 @@
 "use client";
 import { useEffect } from "react";
-import { SignedOut, SignIn, SignInButton, useUser } from "@clerk/nextjs";
+import { SignedOut, SignInButton, useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
-import {Button} from '../components/ui/button'
+import { toast } from "sonner";
+
 
 export default function Home() {
   const { isSignedIn } = useUser();
@@ -10,6 +11,7 @@ export default function Home() {
 
   useEffect(() => {
     if (isSignedIn) {
+      toast.success('Redirecting to the dashboard')
       router.push("/workspace");
     }
   }, [isSignedIn, router]);

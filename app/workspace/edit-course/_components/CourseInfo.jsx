@@ -17,6 +17,7 @@ function CourseInfo({ courseData, viewCourse }) {
 
 
   const courseList = courseData?.courseJson?.course;
+  
 
   if (!courseList) {
     return <div>Course information not available</div>;

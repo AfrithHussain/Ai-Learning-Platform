@@ -26,29 +26,67 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 function AddCourseDialogBox({ children }) {
-  const [open, setOpen] = useState(false); // Dialog open/close state
+  const [open, setOpen] = useState(false);
   const [courseForm, setCourseForm] = useState({
     name: "",
     description: "",
-    noOfChapters: 1,
+    noOfChapters: 0,
     includeVideo: false,
     level: "",
     category: "",
   });
 
+  // 1. Add a state to hold validation errors
+  const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const coursePath = useRouter();
 
   const handleFormInput = (field, value) => {
+    // Clear the error for a field when the user starts changing its value
+    if (errors[field]) {
+      setErrors((prev) => {
+        const newErrors = { ...prev };
+        delete newErrors[field];
+        return newErrors;
+      });
+    }
+
     setCourseForm((prev) => ({
       ...prev,
       [field]: value,
     }));
   };
+  
+  // 2. Create a validation function
+  const validateForm = () => {
+    const newErrors = {};
+    if (!courseForm.name.trim()) {
+      newErrors.name = "Course name is required.";
+    }
+    if (courseForm.noOfChapters <= 0 ) {
+      newErrors.noOfChapters = "Please enter a valid number of chapters.";
+    }
+    if (courseForm.noOfChapters >=13 ) {
+      newErrors.noOfChapters = "Maximum chapters reached";
+    }
+    if (!courseForm.level) {
+      newErrors.level = "Please select a difficulty level.";
+    }
+
+    setErrors(newErrors);
+    // Return true if there are no errors, false otherwise
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleFormClick = async () => {
+    // 3. Run validation before making the API call
+    const isValid = validateForm();
+    if (!isValid) {
+      return; // Stop the function if validation fails
+    }
+
     const courseId = uuidv4();
-    setLoading(true); 
+    setLoading(true);
     try {
       const result = await axios.post('/api/create-course-layout', {
         ...courseForm,
@@ -59,17 +97,17 @@ function AddCourseDialogBox({ children }) {
 
       if (result.data.resp === 'limit reached') {
         toast.warning('Please Subscribe to plan');
-        setOpen(false); // Close dialog when limit reached
+        setOpen(false);
         coursePath.replace('/workspace/billing');
-        return; // Stop here
+        return;
       }
 
-      setOpen(false); // Close dialog on success
+      setOpen(false);
       coursePath.push('/workspace/edit-course/' + result?.data?.courseId);
 
     } catch (e) {
       console.log(e);
-    } finally { 
+    } finally {
       setLoading(false);
     }
     console.log("Generated UUID:", courseId);
@@ -86,17 +124,21 @@ function AddCourseDialogBox({ children }) {
 
         <div className="flex flex-col justify-center gap-4">
           <div>
-            <label htmlFor="">Course Name</label>
+            <label htmlFor="courseName">Course Name</label>
             <Input
+              id="courseName"
               onChange={(e) => handleFormInput("name", e.target.value)}
               className="mt-2"
               placeholder="enter the course name"
             />
+            {/* 4. Display error message if it exists */}
+            {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
           </div>
 
           <div>
-            <label htmlFor="">Course Description (optional)</label>
+            <label htmlFor="courseDesc">Course Description (optional)</label>
             <Textarea
+              id="courseDesc"
               onChange={(e) => handleFormInput("description", e.target.value)}
               className="mt-2"
               placeholder="enter the course description"
@@ -104,17 +146,20 @@ function AddCourseDialogBox({ children }) {
           </div>
 
           <div>
-            <label htmlFor="">No of Chapters</label>
+            <label htmlFor="chapters">No of Chapters (1 to 12)</label>
             <Input
+              id="chapters"
               onChange={(e) => handleFormInput("noOfChapters", Number(e.target.value))}
               className="mt-2"
               type="number"
             />
+            {errors.noOfChapters && <p className="text-red-500 text-sm mt-1">{errors.noOfChapters}</p>}
           </div>
 
           <div className="flex items-center gap-5">
-            <label htmlFor="">Include Video</label>
+            <label htmlFor="includeVideo">Include Video</label>
             <Switch
+              id="includeVideo"
               checked={courseForm.includeVideo}
               onCheckedChange={() =>
                 handleFormInput("includeVideo", !courseForm.includeVideo)
@@ -123,22 +168,24 @@ function AddCourseDialogBox({ children }) {
           </div>
 
           <div>
-            <label htmlFor="">Difficulty Level</label>
+            <label htmlFor="level">Difficulty Level</label>
             <Select onValueChange={(value) => handleFormInput("level", value)}>
               <SelectTrigger className="w-[180px] mt-2">
                 <SelectValue placeholder="Difficulty Level" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="beginner">Beginner</SelectItem>
-                <SelectItem value="intermidate">Intermediate</SelectItem>
+                <SelectItem value="intermediate">Intermediate</SelectItem>
                 <SelectItem value="advance">Advanced</SelectItem>
               </SelectContent>
             </Select>
+            {errors.level && <p className="text-red-500 text-sm mt-1">{errors.level}</p>}
           </div>
 
           <div>
-            <label htmlFor="">Category</label>
+            <label htmlFor="category">Category</label>
             <Input
+              id="category"
               onChange={(e) => handleFormInput("category", e.target.value)}
               className="mt-2"
               placeholder="Category (Separate by comma)"

@@ -78,7 +78,7 @@ export async function POST(req) {
       // AI Call
       const contents = [{ role: "user", parts: [{ text: PROMPT + JSON.stringify(chapter) }] }];
       const response = await ai.models.generateContent({
-        model: "gemini-2.5-flash",
+        model: "gemini-2.0-flash",
         contents,
       });
       const rawText = response.candidates?.[0]?.content?.parts?.[0]?.text || "";
