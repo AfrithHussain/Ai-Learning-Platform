@@ -17,6 +17,8 @@ function Provider({ children }) {
     // State to track if the DB create call has been attempted
     const [isSyncAttempted, setIsSyncAttempted] = useState(false);
 
+    
+
     // Get user and loading state from Clerk
     const { user, isLoaded } = useUser();
 
