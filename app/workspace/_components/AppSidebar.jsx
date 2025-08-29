@@ -23,7 +23,12 @@ import {
   ReceiptIndianRupee,
   Menu,
 } from "lucide-react";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 import AddCourseDialogBox from "./AddCourseDialogBox";
 
@@ -34,8 +39,16 @@ function AppSideBar() {
 
   const navLinks = [
     { title: "Dashboard", icons: LayoutDashboard, path: "/workspace" },
-    { title: "My Learning", icons: LucidePanelRightOpen, path: "/workspace/my-learning" },
-    { title: "Explore Courses", icons: Book, path: "/workspace/explore-courses" },
+    {
+      title: "My Learning",
+      icons: LucidePanelRightOpen,
+      path: "/workspace/my-learning",
+    },
+    {
+      title: "Explore Courses",
+      icons: Book,
+      path: "/workspace/explore-courses",
+    },
     { title: "Billing", icons: ReceiptIndianRupee, path: "/workspace/billing" },
     { title: "Profile", icons: CircleUserRound, path: "/workspace/profile" },
   ];
@@ -48,23 +61,26 @@ function AppSideBar() {
   }, [router]);
 
   return (
-    <Sidebar className={`transition-all duration-300 ${collapsed ? "w-16" : "w-64"}`}>
+    <Sidebar
+      className={`transition-all duration-300 ${collapsed ? "w-16" : "w-64"}`}
+    >
       {/* Sidebar Header */}
       <SidebarHeader className="flex items-center justify-between p-2">
         <div className="flex items-center gap-14">
-          {!collapsed && <Image alt="logo" width={130} height={40} src="/logo.svg" />}
-<Button
-  variant="ghost"
-  size="icon"
-  onClick={() => {
-    setCollapsed(!collapsed);
-    // Remove accidental hover/focus state
-    document.activeElement?.blur();
-  }}
->
-  <Menu className="h-5 w-5" />
-</Button>
-
+          {!collapsed && (
+            <Image alt="logo" width={130} height={40} src="/logo.svg" />
+          )}
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => {
+              setCollapsed(!collapsed);
+              // Remove accidental hover/focus state
+              document.activeElement?.blur();
+            }}
+          >
+            <Menu className="h-5 w-5" />
+          </Button>
         </div>
       </SidebarHeader>
 
@@ -82,33 +98,37 @@ function AppSideBar() {
           <SidebarGroupContent>
             <SidebarMenu>
               {navLinks.map((item) => (
-                <SidebarMenuItem key={item.title} className="p-1">
-                  <Link href={item.path} prefetch={true}>
-                    <TooltipProvider delayDuration={100}>
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                         <SidebarMenuButton
-  asChild
-  className={`
-    flex items-center gap-2 w-full px-2 py-1 rounded
-    transition-colors
-    hover:bg-neutral-200 hover:dark:bg-neutral-800
-    ${path === item.path ? "bg-neutral-200 dark:bg-neutral-800" : ""}
-    focus:outline-none
-  `}
->
-  <div className="flex items-center gap-2">
-    <item.icons className="h-5 w-5" />
-    {!collapsed && <span>{item.title}</span>}
-  </div>
-</SidebarMenuButton>
+               <SidebarMenuItem key={item.title} className="p-1">
+  <TooltipProvider delayDuration={100}>
+    <Tooltip>
+      <TooltipTrigger asChild>
+        {/* Button handles hover + tooltip */}
+        <SidebarMenuButton
+          asChild
+          className={`
+            flex items-center gap-2 w-full px-2 py-1 rounded
+            transition-colors
+            hover:bg-neutral-200 hover:dark:bg-neutral-800
+            ${path === item.path ? "bg-neutral-200 dark:bg-neutral-800" : ""}
+            focus:outline-none
+          `}
+        >
+          {/* ✅ Only this part navigates */}
+          <Link href={item.path} prefetch>
+            <div className="flex items-center gap-2">
+              <item.icons className="h-5 w-5" />
+              {!collapsed && <span>{item.title}</span>}
+            </div>
+          </Link>
+        </SidebarMenuButton>
+      </TooltipTrigger>
+      {collapsed && (
+        <TooltipContent side="right">{item.title}</TooltipContent>
+      )}
+    </Tooltip>
+  </TooltipProvider>
+</SidebarMenuItem>
 
-                        </TooltipTrigger>
-                        {collapsed && <TooltipContent side="right">{item.title}</TooltipContent>}
-                      </Tooltip>
-                    </TooltipProvider>
-                  </Link>
-                </SidebarMenuItem>
               ))}
             </SidebarMenu>
           </SidebarGroupContent>

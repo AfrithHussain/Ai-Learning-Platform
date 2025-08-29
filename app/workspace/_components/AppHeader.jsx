@@ -20,7 +20,7 @@ function AppHeader({hideSideBar = false, showBtn = false}) {
   const { setTheme } = useTheme()
     
   return (
-    <div className='flex sticky top-0 items-center justify-end border-b p-3 shadow'>
+    <div className='flex sticky top-0 items-center justify-end border-b p-3 gap-5 shadow'>
       {hideSideBar 
         ? <Link className=' ' href={'/workspace/my-learning'}><Button variant={'outline'}>Back</Button></Link> 
         : (
