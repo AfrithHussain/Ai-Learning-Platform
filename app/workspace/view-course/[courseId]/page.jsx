@@ -5,6 +5,7 @@ function ViewCourse() {
   return (
     <div>
         <EditCourse viewCourse={true}/>
+       
     </div>
   )
 }

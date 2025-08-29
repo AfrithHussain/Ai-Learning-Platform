@@ -19,9 +19,7 @@ function CourseInfo({ courseData, viewCourse }) {
   const courseList = courseData?.courseJson?.course;
   
 
-  if (!courseList) {
-    return <div>Course information not available</div>;
-  }
+  
   
  
 
@@ -55,7 +53,7 @@ function CourseInfo({ courseData, viewCourse }) {
       {/* Left content (text info) */}
       <div className="flex flex-col gap-6 w-full  ">
         <h1 className="text-2xl sm:text-3xl font-bold">{courseList?.name || 'Course Name'}</h1>
-        <p className="text-neutral-800   text-sm  sm:text-base  ">
+        <p className="text-neutral-800   text-sm  sm:text-base  dark:text-neutral-600 ">
           {courseList?.description || 'No description available.'}
         </p>
 
@@ -66,7 +64,7 @@ function CourseInfo({ courseData, viewCourse }) {
             <Clock />
             <div>
               <p className='font-semibold'>Duration</p>
-              <p className="text-neutral-700">
+              <p className="text-neutral-700 dark:text-neutral-600">
                 {courseList?.chapters[0]?.duration ? `${courseList?.chapters[0].duration}s` : 'Not available'}
               </p>
             </div>
@@ -77,7 +75,7 @@ function CourseInfo({ courseData, viewCourse }) {
             <Book />
             <div>
               <p className='font-semibold'>Chapters</p>
-              <p className="text-neutral-700">{courseData?.noOfChapters || 'Not available'}</p>
+              <p className="text-neutral-700 dark:text-neutral-600">{courseData?.noOfChapters || 'Not available'}</p>
             </div>
           </div>
 
@@ -86,7 +84,7 @@ function CourseInfo({ courseData, viewCourse }) {
             <IndentIncrease />
             <div>
               <p className='font-semibold'>Difficulty Level</p>
-              <p className="text-neutral-700">{courseList?.level || 'Not available'}</p>
+              <p className="text-neutral-700 dark:text-neutral-600">{courseList?.level || 'Not available'}</p>
             </div>
           </div>
         </div>

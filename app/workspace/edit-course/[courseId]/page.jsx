@@ -1,44 +1,54 @@
 "use client";
 
-import axios from 'axios';
-import { useParams } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
-import CourseInfo from '../_components/CourseInfo';
-import CourseChapters from '../_components/CourseChapters';
-
-function EditCourse({viewCourse=false}) {
-     
-    const [isLoading, setIsLoading] = useState(false);
-    const [courseData, setCourseData] = useState()
+import axios from "axios";
+import { useParams } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import CourseInfo from "../_components/CourseInfo";
+import CourseChapters from "../_components/CourseChapters";
+import SkeletonCourseInfo from '../_components/SkeletonCourseInfo'
+import SkeletonCourseChapters from '../_components/SkeletonCourseChapters'
 
 
 
-    const params = useParams();
-    const courseId = params.courseId;
+function EditCourse({ viewCourse = false }) {
+  const [isLoading, setIsLoading] = useState(false);
+  const [courseData, setCourseData] = useState(null);
 
-    useEffect(() => {
-        courseDataHandler();
-    }, []);
+  const params = useParams();
+  const courseId = params.courseId;
 
-    const courseDataHandler = async () => {
-        try {
-            setIsLoading(true)
-            const result = await axios.get('/api/get-course?courseId='+courseId);
-            console.log(result.data);
-            setCourseData(result.data)
-        } catch (error) {
-            console.error("Error fetching course data:", error);
-        }
-        setIsLoading(false)
-    };
+  useEffect(() => {
+    courseDataHandler();
+  }, []);
 
-    return (
-        <div>
-            <CourseInfo viewCourse={viewCourse} courseData={courseData}/>
-            <CourseChapters courseData={courseData}/>
+  const courseDataHandler = async () => {
+    try {
+      setIsLoading(true);
+      const result = await axios.get(`/api/get-course?courseId=${courseId}`);
+      console.log(result.data);
+      setCourseData(result.data);
+    } catch (error) {
+      console.error("Error fetching course data:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-        </div>
-    );
+  return (
+    <div>
+      {isLoading || !courseData ? (
+        <>
+          <SkeletonCourseInfo />
+          <SkeletonCourseChapters />
+        </>
+      ) : (
+        <>
+          <CourseInfo viewCourse={viewCourse} courseData={courseData} />
+          <CourseChapters courseData={courseData} />
+        </>
+      )}
+    </div>
+  );
 }
 
 export default EditCourse;

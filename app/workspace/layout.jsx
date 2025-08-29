@@ -3,7 +3,7 @@ import WorkspaceProvider from './provider'
 
 function WorkspaceLayout({children}) {
   return (
-    <div>
+    <div className=''>
       
       <WorkspaceProvider>
         {children}

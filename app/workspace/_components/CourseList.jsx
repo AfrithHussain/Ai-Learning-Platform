@@ -9,8 +9,11 @@ import axios from "axios";
 import { useUser } from "@clerk/nextjs";
 import CourseCard from "./CourseCard";
 
+
 function CourseList() {
   const [courseList, setCourseList] = useState([]);
+  const [courseLoading, setCourseLoading] = useState(true);
+
   // ✅ FIX 1: Destructure 'user' and 'isLoaded' from the hook
   const { user, isLoaded } = useUser();
 
@@ -29,15 +32,18 @@ function CourseList() {
       console.log(result.data);
     } catch (error) {
       console.error("Failed to fetch courses:", error);
+      setCourseLoading(false)
     }
   };
+
+  
 
   return (
     <div className="mt-10">
       <h1 className="text-2xl font-semibold">CourseList</h1>
 
       {/* This logic remains the same */}
-      {courseList.length === 0 ? (
+      { !courseList || courseList.length === 0  ? (
         <div className="flex flex-col items-center justify-center gap-7 mt-8">
           <Image
             src={"/cartoon-img.png"}
