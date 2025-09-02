@@ -38,7 +38,7 @@ function AppSideBar() {
   const router = useRouter(); // ✅ router for prefetch
 
   const navLinks = [
-    { title: "Dashboard", icons: LayoutDashboard, path: "/workspace" },
+    { title: "Dashboards", icons: LayoutDashboard, path: "/workspace" },
     {
       title: "My Learning",
       icons: LucidePanelRightOpen,
