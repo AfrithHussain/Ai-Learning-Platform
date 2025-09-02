@@ -12,7 +12,7 @@ import CourseCard from "./CourseCard";
 
 function CourseList() {
   const [courseList, setCourseList] = useState([]);
-  const [courseLoading, setCourseLoading] = useState(true);
+  
 
   // ✅ FIX 1: Destructure 'user' and 'isLoaded' from the hook
   const { user, isLoaded } = useUser();
@@ -32,7 +32,7 @@ function CourseList() {
       console.log(result.data);
     } catch (error) {
       console.error("Failed to fetch courses:", error);
-      setCourseLoading(false)
+      
     }
   };
 

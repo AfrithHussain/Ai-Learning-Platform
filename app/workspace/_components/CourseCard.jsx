@@ -1,3 +1,4 @@
+"use client"
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { PlayCircle, Database, Settings } from "lucide-react";
@@ -99,4 +100,4 @@ function CourseCard({ course }) {
   );
 }
 
-export default CourseCard;
+export default  React.memo(CourseCard);
