@@ -6,8 +6,7 @@ import ContentSection from "../components/content-1"
 import WallOfLoveSection from "../components/testimonials"
 import Pricing from "../components/pricing"
 import FooterSection from "../components/footer"
-
-
+import FAQsThree from "../components/faqs-3"
 
 
 export default function Home() {
@@ -23,6 +22,7 @@ export default function Home() {
           <Features/>
           <Pricing/>
           <WallOfLoveSection/>
+          <FAQsThree/>
           <FooterSection/>
 
 

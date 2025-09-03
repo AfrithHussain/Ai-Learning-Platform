@@ -102,7 +102,7 @@ export const HeroHeader = () => {
                                     size="sm"
                                     className={cn(isScrolled && 'lg:hidden')}>
                                        
-          <span>login</span>
+          <span className='cursor-pointer'>login</span>
            </Button>
           
 
