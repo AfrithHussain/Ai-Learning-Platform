@@ -53,7 +53,7 @@ function CourseCard({ course }) {
       {/* --- Image Section with fixed 16:9 ratio --- */}
       <div className="relative w-full aspect-video">
         <Image
-          src={course.imagePrompt}
+          src={course.imagePrompt || null}
           alt={`${name} course cover`}
           fill
           className="rounded-md object-cover"

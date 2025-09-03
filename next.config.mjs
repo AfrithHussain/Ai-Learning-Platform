@@ -1,10 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    images: {
-    domains: ['firebasestorage.googleapis.com']
-    }
+  images: {
+    domains: [
+      'firebasestorage.googleapis.com',
+      'ik.imagekit.io' // 👈 add this
+    ],
+  },
 };
-// next.config.js
-
 
 export default nextConfig;
