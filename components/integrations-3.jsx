@@ -1,6 +1,6 @@
 import { Gemini, Replit, MagicUI, VSCodium, MediaWiki, GooglePaLM } from '@/components/logos'
 import { LogoIcon } from './logo'
-import { cn } from '/lib/utils.js'
+import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 
@@ -47,11 +47,16 @@ export default function IntegrationsSection() {
                         </div>
                         <div
                             className="mx-auto mt-6 max-w-lg space-y-6 text-center sm:mt-0 sm:text-left">
-                            <h2 className="text-balance text-3xl font-semibold md:text-4xl">Integrate with your favorite tools</h2>
-                            <p className="text-muted-foreground">Connect seamlessly with popular platforms and services to enhance your workflow.</p>
+                            <h2 className="text-balance text-3xl font-semibold md:text-4xl">
+                                Learn with the tools you already use
+                            </h2>
+                            <p className="text-muted-foreground">
+                                Our platform connects seamlessly with popular apps and learning environments — 
+                                making it easy to bring AI-powered courses into your daily workflow.
+                            </p>
 
                             <Button variant="outline" size="sm" asChild>
-                                <Link href="#">Get Started</Link>
+                                <Link href="#integrations">Explore Integrations</Link>
                             </Button>
                         </div>
                     </div>

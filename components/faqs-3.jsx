@@ -7,33 +7,33 @@ export default function FAQsThree() {
     const faqItems = [
         {
             id: 'item-1',
-            icon: 'clock',
-            question: 'What are your business hours?',
-            answer: 'Our customer service team is available Monday through Friday from 9:00 AM to 8:00 PM EST, and weekends from 10:00 AM to 6:00 PM EST. During holidays, hours may vary and will be posted on our website.',
+            icon: 'book-open',
+            question: 'How does the AI generate my learning path?',
+            answer: 'Our AI analyzes your goals, skill level, and available study time to create a personalized roadmap. It updates dynamically as you make progress or change your preferences.',
         },
         {
             id: 'item-2',
             icon: 'credit-card',
-            question: 'How do subscription payments work?',
-            answer: 'Subscription payments are automatically charged to your default payment method on the same day each month or year, depending on your billing cycle. You can update your payment information and view billing history in your account dashboard.',
+            question: 'Is there a free plan available?',
+            answer: 'Yes! We offer a free plan with core features like AI-generated learning paths and progress tracking. You can upgrade anytime to unlock advanced features such as reports, templates, and team dashboards.',
         },
         {
             id: 'item-3',
-            icon: 'truck',
-            question: 'Can I expedite my shipping?',
-            answer: 'Yes, we offer several expedited shipping options at checkout. Next-day and 2-day shipping are available for most U.S. addresses if orders are placed before 2:00 PM EST. International expedited shipping options vary by destination.',
+            icon: 'zap',
+            question: 'Can I learn at my own pace?',
+            answer: 'Absolutely. Our platform is fully self-paced. You can study on your own schedule, pause when needed, and let the AI adjust your plan accordingly.',
         },
         {
             id: 'item-4',
             icon: 'globe',
-            question: 'Do you offer localized support?',
-            answer: 'We offer multilingual support in English, Spanish, French, German, and Japanese. Our support team can assist customers in these languages via email, chat, and phone during standard business hours for each respective region.',
+            question: 'Do you support multiple languages?',
+            answer: 'Currently, the platform supports English. We are actively working on expanding to more languages to make learning accessible worldwide.',
         },
         {
             id: 'item-5',
-            icon: 'package',
-            question: 'How do I track my order?',
-            answer: 'Once your order ships, you\'ll receive a confirmation email with a tracking number. You can use this number on our website or the carrier\'s website to track your package. You can also view order status and tracking information in your account dashboard under "Order History".',
+            icon: 'shield',
+            question: 'How secure is my data?',
+            answer: 'We take privacy seriously. All data is encrypted in transit and at rest. Your learning preferences and progress are stored securely and never shared with third parties.',
         },
     ]
 
@@ -45,10 +45,11 @@ export default function FAQsThree() {
                         <div className="sticky top-20">
                             <h2 className="mt-4 text-3xl font-bold">Frequently Asked Questions</h2>
                             <p className="text-muted-foreground mt-4">
-                                Can't find what you're looking for? Contact our{' '}
+                                Still curious? Reach out to our{' '}
                                 <Link href="#" className="text-primary font-medium hover:underline">
-                                    customer support team
-                                </Link>
+                                    support team
+                                </Link>{' '}
+                                for more help.
                             </p>
                         </div>
                     </div>

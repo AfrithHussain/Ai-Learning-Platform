@@ -5,7 +5,7 @@ import { Menu, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import React from 'react'
 import { SignedOut, SignInButton, useUser } from "@clerk/nextjs";
-import { cn } from '../lib/utils'
+import { cn } from '@/lib/utils'
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";

@@ -6,22 +6,27 @@ export default function Features() {
         <section className="bg-zinc-50 py-16 md:py-32 dark:bg-transparent">
             <div className="@container mx-auto max-w-5xl px-6">
                 <div className="text-center">
-                    <h2 className="text-balance text-4xl font-semibold lg:text-5xl">Built to cover your needs</h2>
-                    <p className="mt-4">Libero sapiente aliquam quibusdam aspernatur, praesentium iusto repellendus.</p>
+                    <h2 className="text-balance text-4xl font-semibold lg:text-5xl">
+                        Everything you need to learn smarter
+                    </h2>
+                    <p className="mt-4">
+                        Our AI platform is designed to adapt to your goals, giving you full control over how you learn and grow.
+                    </p>
                 </div>
                 <div
                     className="@min-4xl:max-w-full @min-4xl:grid-cols-3 mx-auto mt-8 grid max-w-sm gap-6 *:text-center md:mt-16">
+                    
                     <Card className="group shadow-zinc-950/5">
                         <CardHeader className="pb-3">
                             <CardDecorator>
                                 <Zap className="size-6" aria-hidden />
                             </CardDecorator>
-
-                            <h3 className="mt-6 font-medium">Customizable</h3>
+                            <h3 className="mt-6 font-medium">Personalized Learning</h3>
                         </CardHeader>
-
                         <CardContent>
-                            <p className="text-sm">Extensive customization options, allowing you to tailor every aspect to meet your specific needs.</p>
+                            <p className="text-sm">
+                                Get a learning path that’s custom-built for you — from beginner to advanced, at your own pace.
+                            </p>
                         </CardContent>
                     </Card>
 
@@ -30,12 +35,12 @@ export default function Features() {
                             <CardDecorator>
                                 <Settings2 className="size-6" aria-hidden />
                             </CardDecorator>
-
-                            <h3 className="mt-6 font-medium">You have full control</h3>
+                            <h3 className="mt-6 font-medium">Full Control</h3>
                         </CardHeader>
-
                         <CardContent>
-                            <p className="mt-3 text-sm">From design elements to functionality, you have complete control to create a unique and personalized experience.</p>
+                            <p className="mt-3 text-sm">
+                                Adjust your skills, goals, and schedule anytime — you’re always in charge of your learning journey.
+                            </p>
                         </CardContent>
                     </Card>
 
@@ -44,12 +49,12 @@ export default function Features() {
                             <CardDecorator>
                                 <Sparkles className="size-6" aria-hidden />
                             </CardDecorator>
-
-                            <h3 className="mt-6 font-medium">Powered By AI</h3>
+                            <h3 className="mt-6 font-medium">AI-Powered Guidance</h3>
                         </CardHeader>
-
                         <CardContent>
-                            <p className="mt-3 text-sm">Elements to functionality, you have complete control to create a unique experience.</p>
+                            <p className="mt-3 text-sm">
+                                Smarter recommendations, real-time feedback, and adaptive content powered by the latest AI models.
+                            </p>
                         </CardContent>
                     </Card>
                 </div>
@@ -58,9 +63,7 @@ export default function Features() {
     );
 }
 
-const CardDecorator = ({
-    children
-}) => (
+const CardDecorator = ({ children }) => (
     <div
         className="relative mx-auto size-36 duration-200 [--color-border:color-mix(in_oklab,var(--color-zinc-950)10%,transparent)] group-hover:[--color-border:color-mix(in_oklab,var(--color-zinc-950)20%,transparent)] dark:[--color-border:color-mix(in_oklab,var(--color-white)15%,transparent)] dark:group-hover:bg-white/5 dark:group-hover:[--color-border:color-mix(in_oklab,var(--color-white)20%,transparent)]">
         <div
@@ -70,6 +73,8 @@ const CardDecorator = ({
             aria-hidden
             className="bg-radial to-background absolute inset-0 from-transparent to-75%" />
         <div
-            className="bg-background absolute inset-0 m-auto flex size-12 items-center justify-center border-l border-t">{children}</div>
+            className="bg-background absolute inset-0 m-auto flex size-12 items-center justify-center border-l border-t">
+            {children}
+        </div>
     </div>
 )
