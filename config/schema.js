@@ -40,3 +40,14 @@ export const userBadgesTable = pgTable("user_badges", {
   badgeType: varchar().notNull(),
   awardedAt: timestamp().notNull().defaultNow(),
 });
+
+
+export const quizListTable = pgTable("quiz_list", {
+  id: integer().primaryKey().generatedAlwaysAsIdentity(),
+  userId: varchar().notNull(),             // Store Clerk user ID (string)
+  courseId: varchar().notNull(),           // Store the associated course ID (string)
+  courseName: varchar().notNull(),         // Name of the course
+  quizTitle: varchar().notNull(),          // e.g., "Shadcn Master Class Quiz"
+  questions: json().notNull(),             // Array of questions as JSON
+  createdAt: timestamp().notNull().defaultNow(), // Record creation time
+});

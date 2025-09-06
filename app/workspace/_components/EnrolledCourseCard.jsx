@@ -1,31 +1,46 @@
-
-import { Button } from '@/components/ui/button';
-import { PlayCircle, Sparkle } from 'lucide-react';
-import Image from 'next/image';
-import React, { useContext, useEffect, useState } from 'react';
-import { Progress } from '@/components/ui/progress';
-import Link from 'next/link';
-import axios from 'axios';
-
-
-
+import { Button } from "@/components/ui/button";
+import { PlayCircle, Sparkle } from "lucide-react";
+import Image from "next/image";
+import React, { useContext, useEffect, useState } from "react";
+import { Progress } from "@/components/ui/progress";
+import Link from "next/link";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 function EnrolledCourseCard({ courseData, cid }) {
-   const [badgeSent, setBadgeSent] = useState(false);
-   
-    
-      
-      console.log(courseData);
-      
+  const [badgeSent, setBadgeSent] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const router = useRouter();
 
   const course = courseData.courses?.courseJson?.course;
-  
- 
- 
-  
 
+  const courseName = courseData?.courses?.name;
+  const quizzChapters = courseData.courses?.courseJson?.course?.chapters;
+  const quizzChapterName = [];
 
-  
+  quizzChapters.forEach((data) => {
+    quizzChapterName.push(data.chapterName);
+  });
+
+  // for quizz generation
+
+  async function quizzHandler() {
+    setIsLoading(true);
+    try {
+      const response = await axios.post("/api/quizz-content", {
+        courseId: cid,
+        courseName,
+        quizzChapterName,
+      });
+      console.log("Quiz Generated:", response.data);
+      router.push("/quiz/" + cid);
+    } catch (error) {
+      console.error("Failed:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   if (!course) {
     return (
@@ -39,26 +54,23 @@ function EnrolledCourseCard({ courseData, cid }) {
     const completedChapters = Object.values(
       courseData?.enrollCourse?.chaptersCompleted || {}
     ).filter(Boolean).length;
-  
+
     const totalChapters = courseData?.courses?.courseDataContent?.length || 0;
     if (totalChapters === 0) return 0;
 
     return Math.round((completedChapters / totalChapters) * 100);
   };
-  
-const progress = calculateChapterCompleted();
+
+  const progress = calculateChapterCompleted();
 
   useEffect(() => {
-    
-
     if (progress === 100 && !badgeSent) {
-      axios.post('/api/course-completed', { courseId: cid })
+      axios
+        .post("/api/course-completed", { courseId: cid })
         .then(() => setBadgeSent(true))
         .catch(console.error);
     }
-  }, [ badgeSent, cid]);
-
-  
+  }, [badgeSent, cid]);
 
   return (
     <div
@@ -92,11 +104,16 @@ const progress = calculateChapterCompleted();
         <Progress value={calculateChapterCompleted()} />
       </div>
       {/* take quizz */}
-      {
-        badgeSent && <Button className="w-full my-2">
-          <Sparkle className="mr-2 h-4 w-4 " /> Take Quizz
+      {badgeSent && (
+        <Button
+          onClick={quizzHandler}
+          disabled={isLoading}
+          className="w-full my-2"
+        >
+          <Sparkle className="mr-2 h-4 w-4" />{" "}
+          {isLoading ? "Generating Quiz..." : "Take Quiz"}
         </Button>
-      }
+      )}
       {/* --- Footer Button --- */}
       <Link href={`/workspace/view-course/${courseData.courses.cid}`}>
         <Button className="w-full">
