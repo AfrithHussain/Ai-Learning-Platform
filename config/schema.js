@@ -1,5 +1,5 @@
 import { boolean, json, text } from "drizzle-orm/gel-core";
-import { integer, pgTable, varchar } from "drizzle-orm/pg-core";
+import { integer, pgTable, varchar, timestamp } from "drizzle-orm/pg-core";
 
 export const usersTable = pgTable("users", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
@@ -32,3 +32,11 @@ export const enrollCourseTable = pgTable("enrollCourse", {
  
 })
 
+
+export const userBadgesTable = pgTable("user_badges", {
+  id: integer().primaryKey().generatedAlwaysAsIdentity(),
+  userId: text('user_id').notNull().references(()=>usersTable.clerkId),  // Should reference usersTable.id
+  courseId: varchar().notNull().references(()=> courseList.cid), // Should reference courseList.cid
+  badgeType: varchar().notNull(),
+  awardedAt: timestamp().notNull().defaultNow(),
+});

@@ -5,6 +5,7 @@ import { useUser } from '@clerk/nextjs';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { SelectedChapterContext } from './../context/SelectedChapterContext';
+import { CourseDataContext } from '@/context/CourseDataContext';
 
 function Provider({ children }) {
     // State for your context
@@ -16,6 +17,10 @@ function Provider({ children }) {
 
     // State to track if the DB create call has been attempted
     const [isSyncAttempted, setIsSyncAttempted] = useState(false);
+
+    // All Course List Details will be stored here 
+
+    const [courseDataList, setCourseDataList] = useState([])
 
     
 
@@ -56,9 +61,13 @@ function Provider({ children }) {
 
     return (
         <UserDetailContext.Provider value={{ userDetail, setUserDetail }}>
-            <SelectedChapterContext.Provider value={{selectedChapterIndex, setSelectedChapterIndex}}>
+            <CourseDataContext.Provider value={{courseDataList,setCourseDataList}}>
+                <SelectedChapterContext.Provider value={{selectedChapterIndex, setSelectedChapterIndex}}>
+
                   {children}
             </SelectedChapterContext.Provider>
+            </CourseDataContext.Provider>
+            
            
         </UserDetailContext.Provider>
     );
