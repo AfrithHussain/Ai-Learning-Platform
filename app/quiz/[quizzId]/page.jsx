@@ -1,37 +1,54 @@
-"use client"
-import React from 'react'
-import QuizzContent from '../_components/QuizzContent'
-import { useParams } from 'next/navigation';
-import { useState } from 'react';
-import axios from 'axios';
+"use client";
 
+import React, { useEffect, useState } from "react";
+import QuizzContent from "../_components/QuizzContent";
+import { useParams } from "next/navigation";
+import axios from "axios";
 
-function page() {
-   const {quizzId} = useParams()
-   console.log(quizzId);
+function Page() {
+  const { quizzId } = useParams();
+  const [quizzData, setQuizzData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-   const [quizzData, setQuizzData] = useState([]);
+  useEffect(() => {
+    async function fetchQuiz() {
+      if (!quizzId) {
+        setIsLoading(false); // Stop loading if no quizzId
+        return;
+      }
 
-    async function quizzDataHandler() {
-         try{
-             const result = await axios.get('/api/quizz-content');
+      try {
+        const res = await axios.get(`/api/quizz-content?courseId=${quizzId}`);
+        const quizzes = res.data.quizzes;
+        console.log(res.data);
+        
 
-          console.log(result.data);
-         }
-
-         catch(err){
-             console.log(err);
-             
-         }
-          
+        if (quizzes.length > 0) {
+          setQuizzData(quizzes[0]); // Only one quiz per user-course
+        }
+      } catch (err) {
+        console.error("Error fetching quiz:", err);
+      } finally {
+        setIsLoading(false); // ✅ Stop loading after fetch attempt
+      }
     }
-   
-    quizzDataHandler()
+
+    fetchQuiz();
+  }, [quizzId]);
+
+  if (isLoading) {
+    return <div>Loading quiz...</div>;
+  }
+
+  if (!quizzData) {
+    return <div>Quiz not found.</div>;
+  }
+
   return (
     <div>
-        <QuizzContent/>
+      <QuizzContent quizData={quizzData} />
     </div>
-  )
+  );
 }
 
-export default page
+export default Page;

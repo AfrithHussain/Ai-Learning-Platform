@@ -1,46 +1,73 @@
 import { Button } from "@/components/ui/button";
 import { PlayCircle, Sparkle } from "lucide-react";
 import Image from "next/image";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Progress } from "@/components/ui/progress";
 import Link from "next/link";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { useUser } from "@clerk/nextjs"; // 👈 Import Clerk hook
 
 function EnrolledCourseCard({ courseData, cid }) {
   const [badgeSent, setBadgeSent] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [existingQuizId, setExistingQuizId] = useState(null);
 
+  const { user } = useUser(); // 👈 Get current logged-in user
   const router = useRouter();
 
   const course = courseData.courses?.courseJson?.course;
-
   const courseName = courseData?.courses?.name;
-  const quizzChapters = courseData.courses?.courseJson?.course?.chapters;
-  const quizzChapterName = [];
+  const quizzChapters = courseData.courses?.courseJson?.course?.chapters || [];
+  const quizzChapterName = quizzChapters.map((data) => data.chapterName);
 
-  quizzChapters.forEach((data) => {
-    quizzChapterName.push(data.chapterName);
-  });
+  // // ✅ Fetch existing quiz if available
+  // useEffect(() => {
+  //   async function fetchQuiz() {
+  //     if (!user) return;
 
-  // for quizz generation
+  //     try {
+  //       const res = await axios.get('/api/quizz-content');
+  //       const quizzes = res.data.quizzes;
 
-  async function quizzHandler() {
-    setIsLoading(true);
-    try {
-      const response = await axios.post("/api/quizz-content", {
-        courseId: cid,
-        courseName,
-        quizzChapterName,
-      });
-      console.log("Quiz Generated:", response.data);
-      router.push("/quiz/" + cid);
-    } catch (error) {
-      console.error("Failed:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  }
+  //       const existingQuiz = quizzes.find(
+  //         (q) => q.courseId === cid && q.userId === user.id
+  //       );
+
+  //       if (existingQuiz) {
+  //         setExistingQuizId(existingQuiz.id);
+  //       }
+  //     } catch (err) {
+  //       console.error('Error fetching existing quizzes:', err);
+  //     }
+  //   }
+
+  //   fetchQuiz();
+  // }, [user, cid]);
+
+  // async function quizzHandler() {
+  //   if (existingQuizId) {
+  //     router.push(`/quiz/${existingQuizId}`);
+  //     return;
+  //   }
+
+  //   setIsLoading(true);
+
+  //   try {
+  //     const response = await axios.post("/api/quizz-content", {
+  //       courseId: cid,
+  //       courseName,
+  //       quizzChapterName,
+  //     });
+
+  //     const generatedQuizId = response.data.quizId;
+  //     router.push(`/quiz/${generatedQuizId}`);
+  //   } catch (error) {
+  //     console.error("Failed to generate quiz:", error);
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // }
 
   if (!course) {
     return (
@@ -61,23 +88,27 @@ function EnrolledCourseCard({ courseData, cid }) {
     return Math.round((completedChapters / totalChapters) * 100);
   };
 
+
   const progress = calculateChapterCompleted();
 
-  useEffect(() => {
-    if (progress === 100 && !badgeSent) {
-      axios
-        .post("/api/course-completed", { courseId: cid })
-        .then(() => setBadgeSent(true))
-        .catch(console.error);
-    }
-  }, [badgeSent, cid]);
+  
+    useEffect(() => {
+  if (progress === 100) {
+    axios
+      .post("/api/course-completed", { courseId: cid })
+      .then(() => {
+        console.log(`Badge updated for course ${cid}`);
+      })
+      .catch(console.error);
+  }
+}, [progress, cid]);
+
 
   return (
     <div
       key={cid}
       className="border rounded-lg w-80 p-4 flex flex-col h-full hover:shadow-lg transition-shadow duration-200"
     >
-      {/* --- Image with 16:9 ratio --- */}
       <div className="relative w-full aspect-video">
         <Image
           src={courseData.courses.imagePrompt}
@@ -88,7 +119,6 @@ function EnrolledCourseCard({ courseData, cid }) {
         />
       </div>
 
-      {/* --- Content --- */}
       <div className="flex flex-col flex-grow mt-4">
         <h2 className="text-lg font-bold truncate">{course.name}</h2>
         <p className="text-sm text-muted-foreground mt-2 line-clamp-3">
@@ -96,25 +126,24 @@ function EnrolledCourseCard({ courseData, cid }) {
         </p>
       </div>
 
-      {/* --- Progress --- */}
       <div className="mb-3">
         <h2 className="flex items-center justify-between text-primary mt-2 mb-1">
-          progress <span>{calculateChapterCompleted()}%</span>
+          progress <span>{progress}%</span>
         </h2>
-        <Progress value={calculateChapterCompleted()} />
+        <Progress value={progress} />
       </div>
-      {/* take quizz */}
-      {badgeSent && (
+
+      {/* {badgeSent && (
         <Button
           onClick={quizzHandler}
           disabled={isLoading}
           className="w-full my-2"
         >
-          <Sparkle className="mr-2 h-4 w-4" />{" "}
-          {isLoading ? "Generating Quiz..." : "Take Quiz"}
+          <Sparkle className="mr-2 h-4 w-4" />
+          {existingQuizId ? "Go to Quiz" : isLoading ? "Generating Quiz..." : "Take Quiz"}
         </Button>
-      )}
-      {/* --- Footer Button --- */}
+      )} */}
+
       <Link href={`/workspace/view-course/${courseData.courses.cid}`}>
         <Button className="w-full">
           <PlayCircle className="mr-2 h-4 w-4" /> Continue Learning

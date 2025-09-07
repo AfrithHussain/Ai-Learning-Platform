@@ -33,15 +33,19 @@ function Badges() {
   async function badgeHandler() {
     try {
       const result = await axios.get("/api/course-completed");
-      const count = result.data.badgeCount;
+const badges = result.data.badges;
+console.log(result.data);
 
-      setBadgeCount(count);
-      setBadgesCollected(badgeNames.slice(0, count));
+setBadgeCount(badges.length);
+setBadgesCollected(badges.map(badge => badge.badgeType));  // Display actual badge types
+
     } catch (error) {
       console.error(error);
     }
   }
 
+  
+   
   useEffect(() => {
     badgeHandler();
   }, []);

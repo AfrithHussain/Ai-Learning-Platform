@@ -14,32 +14,33 @@ export async function POST(req) {
     );
   }
 
-  // Check if badge already exists
-  const existing = await db
-    .select()
-    .from(userBadgesTable)
-    .where(eq(userBadgesTable.userId, userId), eq(userBadgesTable.courseId, courseId));
-
-  if (existing.length === 0) {
+  try {
     await db.insert(userBadgesTable).values({
       userId,
       courseId,
       badgeType: "Course Completion",
       awardedAt: new Date(),
-    });
+    }).onConflictDoNothing(); // Prevent duplicate error
+
+    const badgeCount = await db
+      .select()
+      .from(userBadgesTable)
+      .where(eq(userBadgesTable.userId, userId));
+
+    return new Response(
+      JSON.stringify({ success: true, badgeCount: badgeCount.length }),
+      { status: 200, headers: { "Content-Type": "application/json" } }
+    );
+
+  } catch (err) {
+    console.error('Error in course-completed API:', err);
+    return new Response(
+      JSON.stringify({ success: false, message: 'Internal Server Error' }),
+      { status: 500, headers: { "Content-Type": "application/json" } }
+    );
   }
+};
 
-  // Count total badges
-  const badgeCount = await db
-    .select()
-    .from(userBadgesTable)
-    .where(eq(userBadgesTable.userId, userId));
-
-  return new Response(
-    JSON.stringify({ success: true, badgeCount: badgeCount.length }),
-    { status: 200, headers: { "Content-Type": "application/json" } }
-  );
-}
 
 export async function GET(req) {
   const { userId } = await auth();
@@ -51,10 +52,10 @@ export async function GET(req) {
     );
   }
 
-  const badges = await db.select().from(userBadgesTable).where(eq(userBadgesTable.userId, userId));
+ const badges = await db.select().from(userBadgesTable).where(eq(userBadgesTable.userId, userId));
+return new Response(
+  JSON.stringify({ success: true, badgeCount: badges.length, badges }),
+  { status: 200, headers: { "Content-Type": "application/json" } }
+);
 
-  return new Response(
-    JSON.stringify({ success: true, badgeCount: badges.length, badges }),
-    { status: 200, headers: { "Content-Type": "application/json" } }
-  );
 }

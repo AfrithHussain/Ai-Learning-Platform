@@ -96,19 +96,24 @@ export async function POST(req) {
       );
     }
 
-    await db.insert(quizListTable).values({
-      userId: user.id,
-      courseId: courseId,
-      courseName,
-      quizTitle: `${courseName} Quiz`,
-      questions: JSON.stringify(quizJson.questions),
-      createdAt: new Date(), // Pass Date object
-    });
+   const insertedQuiz = await db
+  .insert(quizListTable)
+  .values({
+    userId: user.id,
+    courseId: courseId,
+    courseName,
+    quizTitle: `${courseName} Quiz`,
+    questions: JSON.stringify(quizJson.questions),
+    createdAt: new Date(),
+  })
+  .returning({ id: quizListTable.id });  // <-- Capture the generated quiz ID
 
-    return NextResponse.json({
-      message: "Quiz generated successfully",
-      quizData: quizJson,
-    });
+return NextResponse.json({
+  message: "Quiz generated successfully",
+  quizData: quizJson,
+  quizId: insertedQuiz[0].id,           // Return generated quiz ID
+});
+
   } catch (err) {
     console.error("Unexpected error in quiz-generation API:", err);
     return NextResponse.json(
@@ -122,19 +127,32 @@ export async function POST(req) {
 export async function GET(req) {
   try {
     const user = await currentUser();
-    const has = await auth();
+    await auth();
 
     if (!user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
+    const { searchParams } = new URL(req.url);
+    const courseId = searchParams.get('courseId');  // ✅ Read query param
+
+    if (!courseId) {
+      return NextResponse.json(
+        { error: "Missing courseId query parameter" },
+        { status: 400 }
+      );
+    }
+
     const quizzes = await db
       .select()
       .from(quizListTable)
-      .where(eq(quizListTable.userId, user.id));
+      .where(
+        eq(quizListTable.userId, user.id),
+        eq(quizListTable.courseId, courseId)  // ✅ Filter by courseId
+      );
 
     return NextResponse.json({ quizzes });
-  } catch (err) {
+  }catch (err) {
     console.error("Error fetching quizzes:", err);
     return NextResponse.json({ error: "Failed to fetch quizzes" }, { status: 500 });
   }
