@@ -8,7 +8,8 @@ import Link from "next/link";
 
 function Page() {
   const { quizzId } = useParams();
-  const [quizzData, setQuizzData] = useState(null);
+  const [quizzData, setQuizzData] = useState([]);
+  
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -21,12 +22,10 @@ function Page() {
       try {
         const res = await axios.get(`/api/quizz-content?courseId=${quizzId}`);
         const quizzes = res.data.quizzes;
-        console.log(res.data);
+        setQuizzData(quizzes)
         
 
-        if (quizzes.length > 0) {
-          setQuizzData(quizzes[0]); // Only one quiz per user-course
-        }
+     
       } catch (err) {
         console.error("Error fetching quiz:", err);
       } finally {
@@ -35,20 +34,23 @@ function Page() {
     }
 
     fetchQuiz();
+     
   }, [quizzId]);
+  
+ 
 
   if (isLoading) {
     return <div>Loading quiz...</div>;
   }
 
-  if (!quizzData) {
+  if (quizzData.length === 0) {
     return <div>Quiz not found.</div>;
   }
 
   return (
     <div>
       <Link href={'/workspace/my-learning'}>Back</Link>
-      <QuizzContent quizData={quizzData} />
+      <QuizzContent quizzId={quizzId} quizData={quizzData} />
     </div>
   );
 }
