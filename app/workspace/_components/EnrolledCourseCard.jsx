@@ -6,14 +6,14 @@ import { Progress } from "@/components/ui/progress";
 import Link from "next/link";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { useUser } from "@clerk/nextjs"; // 👈 Import Clerk hook
+import { useUser } from "@clerk/nextjs";
 
 function EnrolledCourseCard({ courseData, cid }) {
-  const [badgeSent, setBadgeSent] = useState(false);
+  
   const [isLoading, setIsLoading] = useState(false);
   const [existingQuizId, setExistingQuizId] = useState(null);
 
-  const { user } = useUser(); // 👈 Get current logged-in user
+  const { user } = useUser();
   const router = useRouter();
 
   const course = courseData.courses?.courseJson?.course;
@@ -21,53 +21,62 @@ function EnrolledCourseCard({ courseData, cid }) {
   const quizzChapters = courseData.courses?.courseJson?.course?.chapters || [];
   const quizzChapterName = quizzChapters.map((data) => data.chapterName);
 
-  // // ✅ Fetch existing quiz if available
-  // useEffect(() => {
-  //   async function fetchQuiz() {
-  //     if (!user) return;
+  // ✅ Initialize existingQuizId when component mounts
+  useEffect(() => {
+    if (!user) return;
 
-  //     try {
-  //       const res = await axios.get('/api/quizz-content');
-  //       const quizzes = res.data.quizzes;
+    axios
+      .get('/api/quizz-content', { params: { userId: user.id, courseId: cid } })
+      .then((res) => {
+        const quizzes = res.data.quizzes;
+        const existingQuiz = quizzes.find(
+          (q) => q.courseId === cid && q.userId === user.id
+        );
 
-  //       const existingQuiz = quizzes.find(
-  //         (q) => q.courseId === cid && q.userId === user.id
-  //       );
+        if (existingQuiz) {
+          setExistingQuizId(existingQuiz.id);
+        }
+      })
+      .catch(console.error);
+  }, [user, cid]);
 
-  //       if (existingQuiz) {
-  //         setExistingQuizId(existingQuiz.id);
-  //       }
-  //     } catch (err) {
-  //       console.error('Error fetching existing quizzes:', err);
-  //     }
-  //   }
+  async function quizzHandler() {
+    if (!user) return;
 
-  //   fetchQuiz();
-  // }, [user, cid]);
+    setIsLoading(true);
 
-  // async function quizzHandler() {
-  //   if (existingQuizId) {
-  //     router.push(`/quiz/${existingQuizId}`);
-  //     return;
-  //   }
+    try {
+      const res = await axios.get('/api/quizz-content', {
+        params: { userId: user.id, courseId: cid }
+      });
 
-  //   setIsLoading(true);
+      const quizzes = res.data.quizzes;
+      const existingQuiz = quizzes.find(
+        (q) => q.courseId === cid && q.userId === user.id
+      );
 
-  //   try {
-  //     const response = await axios.post("/api/quizz-content", {
-  //       courseId: cid,
-  //       courseName,
-  //       quizzChapterName,
-  //     });
+      if (existingQuiz) {
+        setExistingQuizId(existingQuiz.id);
+        router.push(`/quiz/${existingQuiz.id}`);
+      } else {
+        const response = await axios.post('/api/quizz-content', {
+          courseId: cid,
+          courseName,
+          quizzChapterName,
+          userId: user.id
+        });
 
-  //     const generatedQuizId = response.data.quizId;
-  //     router.push(`/quiz/${generatedQuizId}`);
-  //   } catch (error) {
-  //     console.error("Failed to generate quiz:", error);
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // }
+        const generatedQuizId = response.data.quizId;
+        setExistingQuizId(generatedQuizId);
+        router.push(`/quiz/${generatedQuizId}`);
+      }
+
+    } catch (error) {
+      console.error("Failed to handle quiz:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   if (!course) {
     return (
@@ -88,21 +97,15 @@ function EnrolledCourseCard({ courseData, cid }) {
     return Math.round((completedChapters / totalChapters) * 100);
   };
 
-
   const progress = calculateChapterCompleted();
 
-  
-    useEffect(() => {
-  if (progress === 100) {
-    axios
-      .post("/api/course-completed", { courseId: cid })
-      .then(() => {
-        console.log(`Badge updated for course ${cid}`);
-      })
-      .catch(console.error);
-  }
-}, [progress, cid]);
-
+  useEffect(() => {
+    if (progress === 100) {
+      axios
+        .post("/api/course-completed", { courseId: cid })
+        .catch(console.error);
+    }
+  }, [progress, cid]);
 
   return (
     <div
@@ -133,16 +136,21 @@ function EnrolledCourseCard({ courseData, cid }) {
         <Progress value={progress} />
       </div>
 
-      {/* {badgeSent && (
+      {progress === 100 && (
         <Button
           onClick={quizzHandler}
           disabled={isLoading}
           className="w-full my-2"
         >
           <Sparkle className="mr-2 h-4 w-4" />
-          {existingQuizId ? "Go to Quiz" : isLoading ? "Generating Quiz..." : "Take Quiz"}
+          {existingQuizId
+            ? "Go to Quiz"
+            : isLoading
+              ? "Generating Quiz..."
+              : "Take Quiz"
+          }
         </Button>
-      )} */}
+      )}
 
       <Link href={`/workspace/view-course/${courseData.courses.cid}`}>
         <Button className="w-full">

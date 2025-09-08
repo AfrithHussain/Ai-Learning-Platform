@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import QuizzContent from "../_components/QuizzContent";
 import { useParams } from "next/navigation";
 import axios from "axios";
+import Link from "next/link";
 
 function Page() {
   const { quizzId } = useParams();
@@ -46,6 +47,7 @@ function Page() {
 
   return (
     <div>
+      <Link href={'/workspace/my-learning'}>Back</Link>
       <QuizzContent quizData={quizzData} />
     </div>
   );
