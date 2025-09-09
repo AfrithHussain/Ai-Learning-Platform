@@ -145,3 +145,91 @@
   }
 }
 
+body {
+  font-family: var(--font-jost), sans-serif;
+}
+
+/* In globals.css */
+
+/* Style for H1 tags inside your dynamic content */
+/* --- Light Mode Styles --- */
+.light .topic-content h1 {
+  color: #27272a; /* Dark gray for light mode */
+  font-size: 25px;
+}
+
+.light .topic-content h3::before {
+  content: "➤ ";
+  color: #f59e0b; /* A nice amber for light mode */
+  margin-right: 1px;
+}
+
+.light .topic-content h3 {
+  color: #3f3f46; /* A slightly lighter dark gray */
+  font-weight: 600;
+  font-size: 20px;
+  margin-top: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.light .topic-content p {
+  font-size: 1rem;
+  color: #44444b; /* Readable gray for paragraphs */
+  margin-left: 5px;
+}
+
+.light .topic-content ul {
+  list-style-type: disc;
+  margin-left: 45px;
+    color: #44444b; /* Readable gray for paragraphs */
+
+}
+
+.light .topic-content li {
+  list-style-type: square;
+  margin-left: 45px;
+    color: #44444b; /* Readable gray for paragraphs */
+
+}
+
+
+/* --- Dark Mode Styles --- */
+.dark .topic-content h1 {
+  font-size: 25px;
+  color: #017579; /* Your original color */
+  font-weight: bold;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.dark .topic-content h3::before {
+  content: "➤ ";
+  color: #FFC107; /* Your original color */
+  margin-right: 1px;
+}
+
+.dark .topic-content h3 {
+  color: white; /* Your original color */
+  font-weight: 600;
+  font-size: 20px;
+  margin-top: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.dark .topic-content p {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.696); /* Your original color */
+  margin-left: 5px;
+}
+
+.dark .topic-content ul {
+  list-style-type: disc;
+  margin-left: 45px;
+  color: rgba(255, 255, 255, 0.696); /* Your original color */
+}
+
+.dark .topic-content li {
+  list-style-type: square;
+  margin-left: 45px;
+  color: rgba(255, 255, 255, 0.696); /* Your original color */
+}

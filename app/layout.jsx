@@ -1,15 +1,16 @@
 import { ClerkProvider } from "@clerk/nextjs";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Jost, Geist_Mono } from "next/font/google";
+
 import "./globals.css";
 import Provider from "./provider";
 import { Toaster } from "@/components/ui/sonner";
 import { ThemeProvider } from "next-themes";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const jost = Jost({
+  weight: ["500", "700"], // Add the weights you want to use
   subsets: ["latin"],
+  variable: "--font-jost", // Use a more descriptive variable name
 });
-
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
@@ -26,8 +27,8 @@ export default function RootLayout({ children }) {
   signUpFallbackRedirectUrl="/workspace">
       <html lang="en" suppressHydrationWarning>
         <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased overflow-x-hidden`}
-        >
+  className={`${jost.variable} ${geistMono.variable} antialiased overflow-x-hidden`}
+>
           <ThemeProvider
             attribute="class"
             defaultTheme="system"

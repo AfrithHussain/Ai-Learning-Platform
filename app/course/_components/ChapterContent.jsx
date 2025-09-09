@@ -87,12 +87,12 @@ function ChapterContent({ courseData, refreshData }) {
         <div>
           <h2 className="font-semibold text-xl my-3">Content</h2>
           {courseTopics.map((topic, i) => (
-            <div key={i} className="p-5 bg-secondary mt-10">
+            <div key={i} className="p-5  rounded-md border-2 mt-10 topic-content">
               <h1 className="font-bold text-xl text-primary">
                 {i + 1}. {topic?.topic}
               </h1>
               <div
-                style={{ lineHeight: '2.9' }}
+                style={{ lineHeight: '2.8',  } }
                 dangerouslySetInnerHTML={{ __html: topic?.content }}
               />
             </div>
