@@ -1,18 +1,40 @@
 "use client";
 
-import React, { useState } from "react";
+import { Button } from "@/components/ui/button";
+import React, { useState, useEffect, useRef } from "react";
+import { ConfettiButton } from "@/components/magicui/confetti";
 
 function QuizzContent({ quizzId, quizData }) {
-  const [answers, setAnswers] = useState({}); // store selected answers
+  const [answers, setAnswers] = useState({});
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [score, setScore] = useState(0);
+  const [timer, setTimer] = useState(300);
 
-  // Filter quizData for this quizzId
+  const submitButtonRef = useRef(null); // Ref to submit button
+
   const filterQuizzData = quizData.filter((data) => data.id == quizzId);
-  const quiz = filterQuizzData[0]; // get the first (and only) quiz object
-  console.log(quiz);
+  const quiz = filterQuizzData[0];
 
   if (!quiz) return <div>No quiz found.</div>;
 
+  useEffect(() => {
+    if (isSubmitted) return;
+
+    const interval = setInterval(() => {
+      setTimer((prev) => {
+        if (prev <= 0) {
+          handleSubmit();
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [isSubmitted]);
+
   const handleSelect = (questionIndex, optionIndex) => {
+    if (isSubmitted) return;
     setAnswers((prev) => ({
       ...prev,
       [questionIndex]: optionIndex,
@@ -20,61 +42,143 @@ function QuizzContent({ quizzId, quizData }) {
   };
 
   const handleSubmit = () => {
-    console.log("Selected answers:", answers);
-    alert("Quiz submitted! Check console for selected answers.");
+    let correctCount = 0;
+
+    quiz.questions.forEach((q, index) => {
+      if (answers[index] === q.correctAnswerIndex) correctCount++;
+    });
+
+    setScore(correctCount);
+    setIsSubmitted(true);
+
+    
   };
 
+  const handleRetake = () => {
+    setAnswers({});
+    setIsSubmitted(false);
+    setScore(0);
+    setTimer(300);
+  };
+
+  const isAllAnswered = quiz.questions.length === Object.keys(answers).length;
+
   return (
-    <div className="px-4 sm:px-10 md:px-20 lg:px-40 py-10 flex justify-center">
-      <div className="w-full max-w-4xl flex flex-col gap-8">
-        {/* Quiz Title */}
-        <div className="flex flex-col gap-2">
-          <h1 className="text-4xl font-bold tracking-tight">{quiz.quizTitle}</h1>
-          <p className="text-neutral-400 text-lg">Test your knowledge on this course.</p>
+    <div className="text-neutral-200 min-h-screen transition-colors">
+      <div className="px-4 sm:px-10 md:px-20 lg:px-40 py-7 flex flex-col items-center gap-6">
+
+        {/* Quiz Header with Timer */}
+        <div className="flex justify-between items-center w-full">
+          <div>
+            <h1 className="text-4xl font-bold tracking-tight">{quiz.quizTitle.toUpperCase()}</h1>
+            <p className="text-neutral-400 text-lg">Test your knowledge on this course.</p>
+          </div>
+          {!isSubmitted && (
+            <div className="text-yellow-300 font-bold text-lg">
+              ⏱ Time left: {Math.floor(timer / 60)}:{String(timer % 60).padStart(2, "0")}
+            </div>
+          )}
+        </div>
+
+        {/* Progress Bar */}
+        <div className="w-full bg-gray-600 h-2 rounded-full my-4">
+          <div
+            className="bg-green-700 h-2 rounded-full transition-all"
+            style={{ width: `${(Object.keys(answers).length / quiz.questions.length) * 100}%` }}
+          />
         </div>
 
         {/* Questions */}
-        <div className="flex flex-col gap-12">
+        <div className="flex flex-col gap-12 w-full">
           {quiz.questions.map((q, index) => (
             <div key={index} className="flex flex-col gap-6 bg-[#1a1a2e] rounded-xl p-6">
               <h2 className="text-lg font-bold">
                 {index + 1}. {q.question}
               </h2>
+
               <div className="flex flex-col gap-4">
-                {q.options.map((option, oIndex) => (
-                  <label
-                    key={oIndex}
-                    className={`flex items-center gap-4 rounded-md border p-4 cursor-pointer hover:bg-[#292938] transition-colors ${
-                      answers[index] === oIndex
-                        ? "bg-[#1a1a2e] border-[var(--primary-color)] ring-2 ring-[var(--primary-color)]"
-                        : "border-[#3c3c53]"
-                    }`}
-                  >
-                    <input
-                      type="radio"
-                      name={`quiz-q${index}`}
-                      checked={answers[index] === oIndex}
-                      onChange={() => handleSelect(index, oIndex)}
-                      className="h-5 w-5 border-2 border-[#3c3c53] bg-transparent text-[var(--primary-color)] focus:outline-none focus:ring-0"
-                    />
-                    <span className="text-neutral-200 text-sm">{option}</span>
-                  </label>
-                ))}
+                {q.options.map((option, oIndex) => {
+                  const isSelected = answers[index] === oIndex;
+                  const isCorrect = q.correctAnswerIndex === oIndex;
+
+                  let borderClass = "border-[#3c3c53]";
+
+                  if (isSubmitted) {
+                    if (isCorrect) {
+                      borderClass = "border-green-700 border-4";
+                    } else if (isSelected && !isCorrect) {
+                      borderClass = "border-red-700 border-4";
+                    }
+                  } else if (isSelected) {
+                    borderClass = "border-[var(--primary-color)] border-2";
+                  }
+
+                  return (
+                    <label
+                      key={oIndex}
+                      className={`flex items-center gap-4 rounded-md border p-4 cursor-pointer transition-colors ${borderClass}`}
+                    >
+                      <input
+                        type="radio"
+                        name={`quiz-q${index}`}
+                        checked={isSelected}
+                        onChange={() => handleSelect(index, oIndex)}
+                        disabled={isSubmitted}
+                        className="h-5 w-5 border-2 bg-transparent text-[var(--primary-color)] focus:outline-none focus:ring-0"
+                      />
+                      <span className="text-neutral-200 text-sm font-semibold">{option}</span>
+                      {isSubmitted && (
+                        <span className="ml-2">
+                          {isCorrect ? (
+                            <span className="text-green-300">✔️</span>
+                          ) : isSelected && !isCorrect ? (
+                            <span className="text-red-300">✖️</span>
+                          ) : null}
+                        </span>
+                      )}
+                    </label>
+                  );
+                })}
+
+                {isSubmitted && q.explanation && (
+                  <p className="mt-2 text-neutral-300 italic text-sm bg-[#2a2a3a] p-3 rounded">
+                    💡 {q.explanation}
+                  </p>
+                )}
               </div>
             </div>
           ))}
+        </div>
 
-          {/* Submit Button */}
-          <div className="flex justify-end pt-4">
-            <button
+        {/* Score Display */}
+        {isSubmitted && (
+          <div className="text-xl font-bold text-green-400 mt-6">
+            🎉 You answered {score} out of {quiz.questions.length} questions correctly!
+          </div>
+        )}
+
+        {/* Action Buttons */}
+        <div className="flex items-center justify-between mt-6 w-full">
+          {!isSubmitted ? (
+            <ConfettiButton
+              ref={submitButtonRef}
               onClick={handleSubmit}
-              className="px-6 h-12 rounded-md bg-[var(--primary-color)] text-white font-bold hover:bg-indigo-500 transition-colors"
+              disabled={!isAllAnswered}
+              className={`px-6 h-12 rounded-md ${isAllAnswered ? 'bg-[#1a1a2e]' : 'bg-gray-700 cursor-not-allowed'}  hover:bg-[#262643] text-white`}
             >
               Submit Quiz
-            </button>
-          </div>
+            </ConfettiButton>
+          ) : (
+            <Button
+              onClick={handleRetake}
+              className="px-6 h-12 rounded-md bg-[#1a1a2e] cursor-pointer text-white hover:bg-[#262643]"
+            >
+              Retake Quiz
+            </Button>
+          )}
         </div>
       </div>
+     
     </div>
   );
 }

@@ -5,6 +5,7 @@ import QuizzContent from "../_components/QuizzContent";
 import { useParams } from "next/navigation";
 import axios from "axios";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 function Page() {
   const { quizzId } = useParams();
@@ -49,7 +50,9 @@ function Page() {
 
   return (
     <div>
-      <Link href={'/workspace/my-learning'}>Back</Link>
+     <div className="border-b">
+       <Link className="flex justify-end mx-10 m-3  " href={'/workspace/my-learning'}><Button  variant={'outline'}>Back</Button></Link>
+     </div>
       <QuizzContent quizzId={quizzId} quizData={quizzData} />
     </div>
   );
