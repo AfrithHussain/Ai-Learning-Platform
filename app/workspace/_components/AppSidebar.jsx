@@ -1,6 +1,6 @@
 "use client";
-import React, { useState, useEffect } from "react";
-import { usePathname, useRouter } from "next/navigation"; // ✅ add useRouter
+import React, { useEffect } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import {
   Sidebar,
@@ -21,21 +21,12 @@ import {
   LayoutDashboard,
   LucidePanelRightOpen,
   ReceiptIndianRupee,
-  Menu,
 } from "lucide-react";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-
 import AddCourseDialogBox from "./AddCourseDialogBox";
 
 function AppSideBar() {
-  const [collapsed, setCollapsed] = useState(false);
   const path = usePathname();
-  const router = useRouter(); // ✅ router for prefetch
+  const router = useRouter();
 
   const navLinks = [
     { title: "Dashboard", icons: LayoutDashboard, path: "/workspace" },
@@ -53,7 +44,7 @@ function AppSideBar() {
     { title: "Profile", icons: CircleUserRound, path: "/workspace/profile" },
   ];
 
-  // ✅ Prefetch all sidebar routes when sidebar mounts
+  // Prefetching logic (can stay as is)
   useEffect(() => {
     navLinks.forEach((link) => {
       router.prefetch(link.path);
@@ -61,74 +52,43 @@ function AppSideBar() {
   }, [router]);
 
   return (
-    <Sidebar
-      className={`transition-all duration-300 ${collapsed ? "w-16" : "w-64"}`}
-    >
-      {/* Sidebar Header */}
-      <SidebarHeader className="flex items-center justify-between p-2">
-        <div className="flex items-center gap-14">
-          {!collapsed && (
-            <Image alt="logo" width={130} height={40} src="/logo.svg" />
-          )}
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => {
-              setCollapsed(!collapsed);
-              // Remove accidental hover/focus state
-              document.activeElement?.blur();
-            }}
-          >
-            <Menu className="h-5 w-5" />
-          </Button>
-        </div>
+    // ✅ 1. Use the `collapsible="icon"` prop.
+    // Remove the manual className for width control.
+    <Sidebar collapsible="icon" >
+      <SidebarHeader>
+        {/* The component's CSS will hide the logo when collapsed */}
+        <Image alt="logo" width={130} height={40} src="/logo.svg" />
       </SidebarHeader>
 
-      {/* Sidebar Content */}
       <SidebarContent>
         <SidebarGroup>
-          {!collapsed && (
-            <AddCourseDialogBox>
-              <Button className="mt-1 w-full">Create a Course</Button>
-            </AddCourseDialogBox>
-          )}
+          {/* This button will also be hidden automatically */}
+          <AddCourseDialogBox >
+          
+            <Button className="mt-1 w-full">Create a Course</Button>
+          </AddCourseDialogBox>
         </SidebarGroup>
 
-        <SidebarGroup>
-          <SidebarGroupContent>
+        <SidebarGroup >
+          <SidebarGroupContent >
             <SidebarMenu>
               {navLinks.map((item) => (
-               <SidebarMenuItem key={item.title} className="p-1">
-  <TooltipProvider delayDuration={100}>
-    <Tooltip>
-      <TooltipTrigger asChild>
-        {/* Button handles hover + tooltip */}
-        <SidebarMenuButton
-          asChild
-          className={`
-            flex items-center gap-2 w-full px-2 py-1 rounded
-            transition-colors
-            hover:bg-neutral-200 hover:dark:bg-neutral-800
-            ${path === item.path ? "bg-neutral-200 dark:bg-neutral-800" : ""}
-            focus:outline-none
-          `}
-        >
-          {/* ✅ Only this part navigates */}
-          <Link href={item.path} prefetch>
-            <div className="flex items-center gap-2">
-              <item.icons className="h-5 w-5" />
-              {!collapsed && <span>{item.title}</span>}
-            </div>
-          </Link>
-        </SidebarMenuButton>
-      </TooltipTrigger>
-      {collapsed && (
-        <TooltipContent side="right">{item.title}</TooltipContent>
-      )}
-    </Tooltip>
-  </TooltipProvider>
-</SidebarMenuItem>
-
+                <SidebarMenuItem key={item.title}>
+                  {/* ✅ 2. Use the built-in `tooltip` prop. */}
+                  {/* The component handles showing it only when collapsed. */}
+                  <SidebarMenuButton
+ className={'py-4 my-4'}                    asChild
+                    isActive={path === item.path}
+                    tooltip={item.title}
+                  >
+                    <Link href={item.path} prefetch>
+                      <item.icons className="h-5 w-5" />
+                      {/* ✅ 3. Keep the span! The library's CSS will hide it. */}
+                      {/* This is the key part. */}
+                      <span>{item.title}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
               ))}
             </SidebarMenu>
           </SidebarGroupContent>

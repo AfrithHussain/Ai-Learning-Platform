@@ -7,7 +7,7 @@ import Link from 'next/link'
 import * as React from "react"
 import { Moon, Sun } from "lucide-react"
 import { useTheme } from "next-themes"
-
+import {SidebarTrigger} from "@/components/ui/sidebar"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -20,8 +20,12 @@ function AppHeader({hideSideBar = false, showBtn = false}) {
   const { setTheme } = useTheme()
     
   return (
-    <div className='flex sticky top-0 items-center justify-end border-b p-3 gap-5 shadow'>
-      {hideSideBar 
+    <div className={` ${hideSideBar ? 'flex justify-end  border-b items-center   p-3 gap-5 shadow' : 'flex  justify-between sticky top-0 items-center  border-b p-3 gap-5 shadow'}`}>
+       {!hideSideBar && <SidebarTrigger />}
+
+      
+    <div className="flex items-center gap-5">
+        {hideSideBar 
         ? <Link className=' ' href={'/workspace/my-learning'}><Button variant={'outline'}>Back</Button></Link> 
         : (
           <>
@@ -33,6 +37,7 @@ function AppHeader({hideSideBar = false, showBtn = false}) {
           </>
         )
       }  
+      
       <div className="">
         <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -55,6 +60,7 @@ function AppHeader({hideSideBar = false, showBtn = false}) {
       </DropdownMenuContent>
     </DropdownMenu>
       </div>
+    </div>
       
     </div>
   )

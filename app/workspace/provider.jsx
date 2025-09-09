@@ -8,8 +8,11 @@ function WorkspaceProvider({ children }) {
     <SidebarProvider>   {/* Provides sidebar state */}
       <AppSidebar />    {/* The sidebar */}
       <div className='w-full'>
+        
         <AppHeader />   {/* Header with SidebarTrigger */}
-        <div className="p-10">{children}</div>
+        <div className="p-10">
+          
+          {children}</div>
       </div>
     </SidebarProvider>
   )
