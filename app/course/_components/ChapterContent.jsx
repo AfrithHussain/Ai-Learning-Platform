@@ -52,7 +52,7 @@ function ChapterContent({ courseData, refreshData }) {
 
   return (
     <div>
-      <div className="flex items-center mt-2 justify-between mx-4">
+      <div className="flex items-center mt-2 justify-between ">
         <h2 className="text-2xl font-bold my-2">
           {courseData?.courses?.courseDataContent?.[selectedChapterIndex]?.courseData
             ?.chapterName}

@@ -6,13 +6,18 @@ function Work() {
   return (
     <div>
       <div className="flex items-center justify-around">
-        <div className="">
+        <div className="flex gap-5 justify-around">
+          <div className="">
           <WelcomeBanner/>
       <CourseList/>
 
         </div>
+        <div className="w-xs">
+                  <Badges/>
+        </div>
+        </div>
 
-       <Badges/>
+       
       </div>
       
       
