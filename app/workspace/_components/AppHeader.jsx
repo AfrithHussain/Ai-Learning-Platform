@@ -30,7 +30,7 @@ function AppHeader({hideSideBar = false, showBtn = false, setCollapse}) {
     
     <div className="flex items-center gap-5">
         {hideSideBar 
-        ? <Link className=' ' href={'/workspace/my-learning'}><Button variant={'outline'}>Back</Button></Link> 
+        ? <Link className=' ' href={'/workspace'}><Button variant={'outline'}>Back</Button></Link> 
         : (
           <>
             {!isLoaded ? (
