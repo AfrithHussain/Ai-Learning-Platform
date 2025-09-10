@@ -1,17 +1,21 @@
 import { Button } from "@/components/ui/button";
 import { PlayCircle, Sparkle } from "lucide-react";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Progress } from "@/components/ui/progress";
 import Link from "next/link";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
-
+import {TrackProgressContext} from "@/context/TrackProgressContext"
 function EnrolledCourseCard({ courseData, cid }) {
   
   const [isLoading, setIsLoading] = useState(false);
   const [existingQuizId, setExistingQuizId] = useState(null);
+
+  // track progress by context
+
+  const {trackProgress, setTrackProgress} = useContext(TrackProgressContext)
 
   const { user } = useUser();
   const router = useRouter();
@@ -98,6 +102,26 @@ function EnrolledCourseCard({ courseData, cid }) {
   };
 
   const progress = calculateChapterCompleted();
+    
+
+useEffect(() => {
+  if (!cid) return;
+
+  setTrackProgress((prev) => {
+    const existingIndex = prev.findIndex((item) => item.cid === cid);
+
+    if (existingIndex !== -1) {
+      // Update existing entry
+      const updated = [...prev];
+      updated[existingIndex] = { cid, progress };
+      return updated;
+    } else {
+      // Add new entry
+      return [...prev, { cid, progress }];
+    }
+  });
+}, [cid, progress, setTrackProgress]);
+
 
   useEffect(() => {
     if (progress === 100) {
@@ -110,11 +134,11 @@ function EnrolledCourseCard({ courseData, cid }) {
   return (
     <div
       key={cid}
-      className="border rounded-lg w-80 p-4 flex flex-col h-full hover:shadow-lg transition-shadow duration-200"
+      className="border rounded-lg w-[340px] p-4 flex flex-col h-full hover:shadow-lg transition-shadow duration-200"
     >
       <div className="relative w-full aspect-video">
         <Image
-          src={courseData.courses.imagePrompt}
+          src={courseData.courses.imagePrompt || null}
           alt={`${course.name} course cover`}
           fill
           className="rounded-md object-cover"
@@ -136,13 +160,14 @@ function EnrolledCourseCard({ courseData, cid }) {
         <Progress value={progress} />
       </div>
 
-      {progress === 100 && (
+      <div className="flex items-center justify-between gap-2">
+        {progress === 100 && (
         <Button
           onClick={quizzHandler}
           disabled={isLoading}
-          className="w-full my-2"
+          className=" my-2"
         >
-          <Sparkle className="mr-2 h-4 w-4" />
+          <Sparkle className="" />
           {existingQuizId
             ? "Go to Quiz"
             : isLoading
@@ -153,10 +178,11 @@ function EnrolledCourseCard({ courseData, cid }) {
       )}
 
       <Link href={`/workspace/view-course/${courseData.courses.cid}`}>
-        <Button className="w-full">
+        <Button className="">
           <PlayCircle className="mr-2 h-4 w-4" /> Continue Learning
         </Button>
       </Link>
+      </div>
     </div>
   );
 }

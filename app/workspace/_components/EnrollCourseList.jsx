@@ -65,7 +65,7 @@ function EnrollCourseList() {
           <h2 className="text-xl font-semibold mt-4">
             Continue your learning progress
           </h2>
-          <div className="flex flex-wrap gap-5 mt-2">
+          <div className="flex flex-wrap items-center gap-10 mt-2">
             {courseDataList.map((data) => (
               <EnrolledCourseCard
                 key={data.enrollCourse.cid}

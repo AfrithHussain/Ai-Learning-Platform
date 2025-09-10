@@ -13,7 +13,7 @@ function WorkspaceProvider({ children }) {
       <div className='w-full'>
         
         <AppHeader  setCollapse={setCollapse} />   {/* Header with SidebarTrigger */}
-        <div className="p-10">
+        <div className="p-5">
           
           {children}</div>
       </div>

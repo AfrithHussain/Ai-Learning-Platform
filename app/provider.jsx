@@ -6,10 +6,14 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { SelectedChapterContext } from './../context/SelectedChapterContext';
 import { CourseDataContext } from '@/context/CourseDataContext';
+import { TrackProgressContext } from '@/context/TrackProgressContext';
 
 function Provider({ children }) {
     // State for your context
-    const [userDetail, setUserDetail] = useState(null);
+    const [userDetail, setUserDetail] = useState({
+        cid:"",
+        progress: 0
+    });
 
     // Selected Chapter Content 
 
@@ -21,6 +25,9 @@ function Provider({ children }) {
     // All Course List Details will be stored here 
 
     const [courseDataList, setCourseDataList] = useState([])
+
+    // Track the Course Progress
+    const [trackProgress, setTrackProgress] = useState([])
 
     
 
@@ -63,8 +70,10 @@ function Provider({ children }) {
         <UserDetailContext.Provider value={{ userDetail, setUserDetail }}>
             <CourseDataContext.Provider value={{courseDataList,setCourseDataList}}>
                 <SelectedChapterContext.Provider value={{selectedChapterIndex, setSelectedChapterIndex}}>
+                    <TrackProgressContext.Provider value={{trackProgress, setTrackProgress}}>
 
                   {children}
+                  </TrackProgressContext.Provider>
             </SelectedChapterContext.Provider>
             </CourseDataContext.Provider>
             
