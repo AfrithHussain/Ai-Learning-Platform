@@ -15,15 +15,19 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
-function AppHeader({hideSideBar = false, showBtn = false}) {
+function AppHeader({hideSideBar = false, showBtn = false, setCollapse}) {
   const { isLoaded } = useUser();
   const { setTheme } = useTheme()
     
+  
+ 
+  
+    
   return (
     <div className={` ${hideSideBar ? 'flex justify-end  border-b items-center   p-3 gap-5 shadow' : 'flex  justify-between sticky top-0 items-center  border-b p-3 gap-5 shadow'}`}>
-       {!hideSideBar && <SidebarTrigger />}
-
-      
+       {!hideSideBar && <SidebarTrigger onClick={()=> setCollapse(prev => !prev)} />}
+   
+    
     <div className="flex items-center gap-5">
         {hideSideBar 
         ? <Link className=' ' href={'/workspace/my-learning'}><Button variant={'outline'}>Back</Button></Link> 
@@ -61,6 +65,7 @@ function AppHeader({hideSideBar = false, showBtn = false}) {
     </DropdownMenu>
       </div>
     </div>
+    
       
     </div>
   )

@@ -24,16 +24,16 @@ import {
 } from "lucide-react";
 import AddCourseDialogBox from "./AddCourseDialogBox";
 
-function AppSideBar() {
+function AppSideBar({collapse}) {
   const path = usePathname();
   const router = useRouter();
 
   const navLinks = [
     { title: "Dashboard", icons: LayoutDashboard, path: "/workspace" },
     {
-      title: "My Learning",
+      title: "Enroll Course",
       icons: LucidePanelRightOpen,
-      path: "/workspace/my-learning",
+      path: "/workspace/enroll-course",
     },
     {
       title: "Explore Courses",
@@ -65,8 +65,9 @@ function AppSideBar() {
           {/* This button will also be hidden automatically */}
           <AddCourseDialogBox >
           
-            <Button className="mt-1 w-full">Create a Course</Button>
+           {collapse ? <Button variant={'outlined'} className="mt-1 w-full text-3xl hover:bg-neutral-100 dark:hover:bg-neutral-800 cursor-pointer dark:text-neutral-400 ">+</Button> : <Button className="mt-1 w-full">Create a Course</Button> } 
           </AddCourseDialogBox>
+          
         </SidebarGroup>
 
         <SidebarGroup >

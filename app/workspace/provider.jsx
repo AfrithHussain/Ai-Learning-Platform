@@ -1,15 +1,18 @@
+"use client"
 import React from 'react'
 import { SidebarProvider } from "@/components/ui/sidebar"
 import AppSidebar from './_components/AppSidebar'
 import AppHeader from './_components/AppHeader'
+import { useState } from 'react'
 
 function WorkspaceProvider({ children }) {
+  let [collapse, setCollapse] = useState(false)
   return (
     <SidebarProvider>   {/* Provides sidebar state */}
-      <AppSidebar />    {/* The sidebar */}
+      <AppSidebar collapse={collapse}  />    {/* The sidebar */}
       <div className='w-full'>
         
-        <AppHeader />   {/* Header with SidebarTrigger */}
+        <AppHeader  setCollapse={setCollapse} />   {/* Header with SidebarTrigger */}
         <div className="p-10">
           
           {children}</div>

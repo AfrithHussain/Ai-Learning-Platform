@@ -43,25 +43,11 @@ function CourseList() {
       <h1 className="text-2xl font-semibold">CourseList</h1>
 
       {/* This logic remains the same */}
-      { !courseList || courseList.length === 0  ? (
-        <div className="flex flex-col items-center justify-center gap-7 mt-8">
-          <Image
-            src={"/cartoon-img.png"}
-            width={300}
-            height={150}
-            alt="no-course-added"
-          />
-          <div className="flex flex-col justify-center items-center">
-            <p className="text-lg text-neutral-700">
-              Looks like you have not created any course!
-            </p>
-            <AddCourseDialogBox>
-              <Button className={"mt-5"}>
-                <Sparkle className="mr-2 h-4 w-4" /> Create your first course
-              </Button>
-            </AddCourseDialogBox>
-          </div>
-        </div>
+      {  courseList.length === 0  ? (
+       <div className="text-center py-12 text-muted-foreground">
+        <p className="text-lg font-medium">No courses available</p>
+        <p className="text-sm">Once you enroll in a course, it will appear here.</p>
+      </div>
       ) : (
         <div className="mt-8 flex justify-start gap-10 items-center">
           {courseList.map((course) => (

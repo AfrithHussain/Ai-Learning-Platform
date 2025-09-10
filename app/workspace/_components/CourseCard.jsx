@@ -31,7 +31,7 @@ function CourseCard({ course }) {
       if (result.data.res) {
         toast.success("Course already enrolled");
       } else {
-        router.replace("/workspace/my-learning");
+        router.replace("/workspace");
         toast.success("Course enrolled");
       }
     } catch (e) {
