@@ -9,45 +9,20 @@ import { CourseDataContext } from '@/context/CourseDataContext';
 import { TrackProgressContext } from '@/context/TrackProgressContext';
 
 function Provider({ children }) {
-    // State for your context
-    const [userDetail, setUserDetail] = useState({
-        cid:"",
-        progress: 0
-    });
-
-    // Selected Chapter Content 
-
+    const [userDetail, setUserDetail] = useState();
     const [selectedChapterIndex, setSelectedChapterIndex] = useState(0);
+   
+    const [courseDataList, setCourseDataList] = useState([]);
+    const [trackProgress, setTrackProgress] = useState([]);
 
-    // State to track if the DB create call has been attempted
-    const [isSyncAttempted, setIsSyncAttempted] = useState(false);
-
-    // All Course List Details will be stored here 
-
-    const [courseDataList, setCourseDataList] = useState([])
-
-    // Track the Course Progress
-    const [trackProgress, setTrackProgress] = useState([])
-
-    
-
-    // Get user and loading state from Clerk
-    const { user, isLoaded } = useUser();
+    const { user } = useUser();
 
     useEffect(() => {
-        // This effect should only run when the user is fully loaded and the sync hasn't been tried yet.
-        if (isLoaded && user && !isSyncAttempted) {
-            console.log("User is loaded, attempting to sync to DB...");
-            createUserInDb();
-            setIsSyncAttempted(true); // Mark that we've attempted the sync
-        }
-    }, [isLoaded, user, isSyncAttempted]); // Depend on all three
+        
+        user && createUserInDb()
+    }, [ user]);
 
-    /**
-     * This function sends the user's data to our backend API
-     * to create or retrieve the user from our own database.
-     */
-    async function createUserInDb() {
+  async function createUserInDb() {
         try {
             const response = await axios.post('/api/user', {
                 name: user?.fullName,
@@ -66,18 +41,17 @@ function Provider({ children }) {
         }
     }
 
+
+
     return (
         <UserDetailContext.Provider value={{ userDetail, setUserDetail }}>
-            <CourseDataContext.Provider value={{courseDataList,setCourseDataList}}>
-                <SelectedChapterContext.Provider value={{selectedChapterIndex, setSelectedChapterIndex}}>
-                    <TrackProgressContext.Provider value={{trackProgress, setTrackProgress}}>
-
-                  {children}
-                  </TrackProgressContext.Provider>
-            </SelectedChapterContext.Provider>
+            <CourseDataContext.Provider value={{ courseDataList, setCourseDataList }}>
+                <SelectedChapterContext.Provider value={{ selectedChapterIndex, setSelectedChapterIndex }}>
+                    <TrackProgressContext.Provider value={{ trackProgress, setTrackProgress }}>
+                        {children}
+                    </TrackProgressContext.Provider>
+                </SelectedChapterContext.Provider>
             </CourseDataContext.Provider>
-            
-           
         </UserDetailContext.Provider>
     );
 }

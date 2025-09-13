@@ -52,48 +52,61 @@ function Badges() {
     badgeHandler();
   }, []);
 
-  return (
-    <div className="flex flex-col gap-4">
+return (
+    /* IMPROVEMENT: Added a title to the section and a containing div for better structure.
+      The lg:pl-8 and lg:border-l classes add the sidebar separator only on large screens.
+    */
+    <div className="lg:pl-8 lg:border-l lg:border-gray-200 dark:lg:border-neutral-800 h-full">
+      <h3 className="text-lg font-semibold mb-4 dark:text-white">Your Progress</h3>
+      <div className="flex flex-col gap-5">
 
-      {/* Badges Collected */}
-      <div className="border px-8 py-3 rounded-md dark:bg-neutral-900 w-xs">
-        <p className="w-44 font-semibold">Badges Collected</p>
-        <h1 className="font-bold text-3xl mt-1">{completedCourses}</h1>
-        <div className="flex flex-wrap gap-3 mt-3">
-          {badgeNames.slice(0, completedCourses).map((badge, i) => (
-            <Badge
-              key={i}
-              className={`text-[11px] px-2 py-1 ${badgeStyles[i % badgeStyles.length].bg} ${badgeStyles[i % badgeStyles.length].text}`}
-            >
-              {badge}
-            </Badge>
-          ))}
+        {/* Card 1: Badges Collected */}
+        {/*
+          FROM: border px-8 py-3 rounded-md w-xs
+          TO:   Responsive card styling
+          WHY:  Removed fixed 'w-xs'. The new card style is cleaner and will always be full-width
+                of its parent, which is exactly what we want for responsiveness.
+        */}
+        <div className="bg-slate-50 dark:bg-neutral-900 p-4 rounded-lg border border-gray-200 dark:border-neutral-800">
+          <p className="font-semibold text-gray-600 dark:text-gray-300">Badges Collected</p>
+          <h1 className="font-bold text-4xl mt-1 text-cyan-900 dark:text-white">{completedCourses}</h1>
+          <div className="flex flex-wrap gap-2 mt-3">
+            {badgeNames.slice(0, completedCourses).map((badge, i) => (
+              <Badge
+                key={i}
+                className={`text-[11px] px-2 py-1 ${badgeStyles[i % badgeStyles.length].bg} ${badgeStyles[i % badgeStyles.length].text}`}
+              >
+                {badge}
+              </Badge>
+            ))}
+          </div>
         </div>
+
+        {/* Card 2: Courses Completed */}
+        <div className="bg-slate-50 dark:bg-neutral-900 p-4 lg:p-1   xl:p-4 rounded-lg border border-gray-200 dark:border-neutral-800 flex items-center justify-between gap-3">
+          <div className="font-semibold text-gray-600 dark:text-gray-300 lg:text-sm xl:text-lg">Courses <br /> Completed</div>
+          <CircularProgress
+            value={totalCourses ? (completedCourses / totalCourses) * 100 : 0}
+            size={90} // Reduced size slightly for a cleaner look
+            completedCourses={completedCourses}
+            totalCourses={totalCourses}
+            strokeWidth={8}
+          />
+        </div>
+
+        {/* Card 3: Remaining Progress */}
+        <div className="bg-slate-50 dark:bg-neutral-900 p-4 lg:p-2 xl:p-4  lg:text-sm xl:text-lg     rounded-lg border border-gray-200 dark:border-neutral-800 flex items-center justify-between gap-3">
+          <div className="font-semibold text-gray-600 dark:text-gray-300">In <br />Progress</div>
+          <CircularProgress
+            value={totalCourses ? (inProgressCourses / totalCourses) * 100 : 0}
+            size={90}
+            completedCourses={inProgressCourses}
+            totalCourses={totalCourses}
+            strokeWidth={8}
+          />
+        </div>
+
       </div>
-
-      {/* Courses Completed */}
-     <div className="border px-3 py-2 rounded-md dark:bg-neutral-900 flex items-center gap-3">
-  <CircularProgress
-    value={totalCourses ? (completedCourses / totalCourses) * 100 : 0}
-    size={120}
-    completedCourses={completedCourses}
-    totalCourses={totalCourses}
-    strokeWidth={7}
-  />
-  <p className="">Courses <br /> Completed</p>
-</div>
-
-{/* Remaining Progress */}
-<div className="border px-3 py-2 rounded-md dark:bg-neutral-900  flex items-center gap-3">
-  <CircularProgress
-    value={totalCourses ? (inProgressCourses / totalCourses) * 100 : 0}
-    size={120}
-    completedCourses={inProgressCourses}
-    totalCourses={totalCourses}
-    strokeWidth={7}
-  />
-  <p className=" ">Remaining <br />progress</p>
-</div>
     </div>
   );
 }

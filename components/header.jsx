@@ -4,17 +4,25 @@ import { Logo } from './logo'
 import { Menu, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import React from 'react'
-import { SignedOut, SignInButton, useUser } from "@clerk/nextjs";
+import { SignedOut, SignInButton, SignUpButton, useUser } from "@clerk/nextjs";
 import { cn } from '@/lib/utils'
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-
+import { Moon, Sun } from "lucide-react"
+import { useTheme } from "next-themes"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 const menuItems = [
-    { name: 'Features', href: '#link' },
-    { name: 'Solution', href: '#link' },
-    { name: 'Pricing', href: '#link' },
+    { name: 'Home', href: '#link' },
     { name: 'About', href: '#link' },
+    { name: 'Features', href: '#link' },
+    { name: 'Pricing', href: '#link' },
+    { name: 'Contact', href: '#link' }
 ]
 
 export const HeroHeader = () => {
@@ -37,6 +45,7 @@ export const HeroHeader = () => {
         window.addEventListener('scroll', handleScroll)
         return () => window.removeEventListener('scroll', handleScroll);
     }, [])
+    const { setTheme } = useTheme()
     return (
         <header>
             <nav data-state={menuState && 'active'} className="fixed z-20 w-full px-2">
@@ -109,11 +118,41 @@ export const HeroHeader = () => {
         </SignInButton>
       </SignedOut>
                                
-                                <Button asChild size="sm" className={cn(isScrolled && 'lg:hidden')}>
-                                    <Link href="#">
-                                        <span>Sign Up</span>
-                                    </Link>
-                                </Button>
+                                <SignedOut>
+        <SignUpButton >
+                                <Button
+                                    asChild
+                                    variant="outline"
+                                    size="sm"
+                                    className={cn(isScrolled && 'lg:hidden')}>
+                                       
+          <span className='cursor-pointer'>Sign Up</span>
+           </Button>
+          
+
+        </SignUpButton>
+      </SignedOut>
+                                {/* theme */}
+                                <div className="">
+                                    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="outline" size="icon">
+          <Sun className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
+          <Moon className="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
+          <span className="sr-only">Toggle theme</span>
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        <DropdownMenuItem onClick={() => setTheme("light")}>
+          Light
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => setTheme("dark")}>
+          Dark
+        </DropdownMenuItem>
+       
+      </DropdownMenuContent>
+    </DropdownMenu>
+                                </div>
                                 <Button
                                     asChild
                                     size="sm"

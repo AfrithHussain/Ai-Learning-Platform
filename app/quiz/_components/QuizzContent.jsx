@@ -1,37 +1,20 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import { ConfettiButton } from "@/components/magicui/confetti";
 
 function QuizzContent({ quizzId, quizData }) {
   const [answers, setAnswers] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [score, setScore] = useState(0);
-  const [timer, setTimer] = useState(300);
 
-  const submitButtonRef = useRef(null); // Ref to submit button
+  const submitButtonRef = React.useRef(null); // Ref to submit button
 
   const filterQuizzData = quizData.filter((data) => data.id == quizzId);
   const quiz = filterQuizzData[0];
 
   if (!quiz) return <div>No quiz found.</div>;
-
-  useEffect(() => {
-    if (isSubmitted) return;
-
-    const interval = setInterval(() => {
-      setTimer((prev) => {
-        if (prev <= 0) {
-          handleSubmit();
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [isSubmitted]);
 
   const handleSelect = (questionIndex, optionIndex) => {
     if (isSubmitted) return;
@@ -50,15 +33,12 @@ function QuizzContent({ quizzId, quizData }) {
 
     setScore(correctCount);
     setIsSubmitted(true);
-
-    
   };
 
   const handleRetake = () => {
     setAnswers({});
     setIsSubmitted(false);
     setScore(0);
-    setTimer(300);
   };
 
   const isAllAnswered = quiz.questions.length === Object.keys(answers).length;
@@ -67,17 +47,12 @@ function QuizzContent({ quizzId, quizData }) {
     <div className="text-neutral-200 min-h-screen transition-colors">
       <div className="px-4 sm:px-10 md:px-20 lg:px-40 py-7 flex flex-col items-center gap-6">
 
-        {/* Quiz Header with Timer */}
+        {/* Quiz Header */}
         <div className="flex justify-between items-center w-full">
           <div>
             <h1 className="text-4xl font-bold tracking-tight">{quiz.quizTitle.toUpperCase()}</h1>
             <p className="text-neutral-400 text-lg">Test your knowledge on this course.</p>
           </div>
-          {!isSubmitted && (
-            <div className="text-yellow-300 font-bold text-lg">
-              ⏱ Time left: {Math.floor(timer / 60)}:{String(timer % 60).padStart(2, "0")}
-            </div>
-          )}
         </div>
 
         {/* Progress Bar */}
@@ -164,7 +139,7 @@ function QuizzContent({ quizzId, quizData }) {
               ref={submitButtonRef}
               onClick={handleSubmit}
               disabled={!isAllAnswered}
-              className={`px-6 h-12 rounded-md ${isAllAnswered ? 'bg-[#1a1a2e]' : 'bg-gray-700 cursor-not-allowed'}  hover:bg-[#262643] text-white`}
+              className={`px-6 h-12 rounded-md ${isAllAnswered ? 'bg-[#1a1a2e]' : 'bg-gray-700 cursor-not-allowed'} hover:bg-[#262643] text-white`}
             >
               Submit Quiz
             </ConfettiButton>
@@ -178,7 +153,6 @@ function QuizzContent({ quizzId, quizData }) {
           )}
         </div>
       </div>
-     
     </div>
   );
 }

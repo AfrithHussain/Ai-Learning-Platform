@@ -6,7 +6,7 @@ import { courseList } from "@/config/schema";
 import { eq } from "drizzle-orm";
 import { ai } from "@/lib/ai";
 
-const PROMPT = `
+  const PROMPT = `
 You are an expert learning content generator.
 
 Given a chapter object (with chapter name and topics), generate an HTML formatted explanation for each topic. Return the final response in **JSON** format as described below.
@@ -23,6 +23,9 @@ Schema:
     }
   ]
 }
+
+IMPORTANT:  
+For any code example in the topic explanation, wrap the code inside <pre><code>...</code></pre> tags to ensure proper display in the frontend.
 
 Return ONLY the JSON. Here is the input:
 `;

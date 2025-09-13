@@ -7,6 +7,7 @@ import AddCourseDialogBox from "./AddCourseDialogBox";
 import { Button } from "@/components/ui/button";
 import { Sparkle } from "lucide-react";
 import Image from "next/image";
+import EnrolledCardLoader from "../_skeleton/EnrolledCardLoader";
 
 function EnrollCourseList() {
   const [loading, setLoading] = useState(true);
@@ -34,7 +35,7 @@ function EnrollCourseList() {
   if (loading) {
     return (
       <div className="text-center py-12 text-lg font-medium text-muted-foreground">
-        Loading enrolled courses...
+        <EnrolledCardLoader />
       </div>
     );
   }
@@ -49,8 +50,8 @@ function EnrollCourseList() {
             height={150}
             alt="no-course-added"
           />
-          <div className="flex flex-col justify-center items-center">
-            <p className="text-lg text-neutral-700">
+          <div className="flex flex-col justify-center items-center text-center">
+            <p className="text-lg text-neutral-700 dark:text-neutral-300">
               Looks like you have not created any course!
             </p>
             <AddCourseDialogBox>
@@ -62,10 +63,12 @@ function EnrollCourseList() {
         </div>
       ) : (
         <div>
-          <h2 className="text-xl font-semibold mt-4">
+          <h2 className="text-xl font-semibold mt-4 dark:text-white">
             Continue your learning progress
           </h2>
-          <div className="flex flex-wrap items-center gap-10 mt-2">
+
+          {/* This is the Flexbox container for your cards */}
+          <div className="flex flex-wrap gap-6 mt-4">
             {courseDataList.map((data) => (
               <EnrolledCourseCard
                 key={data.enrollCourse.cid}

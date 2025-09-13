@@ -3,7 +3,8 @@ import { useUser } from "@clerk/nextjs";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import CourseCard from "../_components/CourseCard";
-import SkeletonCourseCard from './_components/SkeletonCourseCard'
+import SkeletonCourseCard from "./_components/SkeletonCourseCard";
+
 function ExploreCourses() {
   const [courseList, setCourseList] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -34,8 +35,8 @@ function ExploreCourses() {
       </h2>
 
       {loading ? (
-        // Skeleton while loading
-        <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        // Skeleton while loading - Now uses a flex-wrap container
+        <div className="flex flex-wrap gap-6 mt-8">
           {[...Array(6)].map((_, idx) => (
             <SkeletonCourseCard key={idx} />
           ))}
@@ -48,7 +49,8 @@ function ExploreCourses() {
           </p>
         </div>
       ) : (
-        <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        // Course list - Also uses a flex-wrap container for consistency
+        <div className="flex flex-wrap gap-6 mt-8">
           {courseList.map((course) => (
             <CourseCard key={course.cid} course={course} />
           ))}

@@ -36,7 +36,7 @@ function CourseInfo({ courseData, viewCourse }) {
 
         console.log(result.data)
         setIsLoading(false)
-        router.replace('/workspace')
+        router.replace('/workspace/enroll-course')
         toast.success('Course Generated Sucessfully')
     }
     catch(e){
@@ -94,13 +94,17 @@ function CourseInfo({ courseData, viewCourse }) {
 
       {/* Right content (image) */}
       <div className="w-full lg:w-1/2">
-        <Image
+
+      {
+        courseData?.imagePrompt === null ? <p className='text-center'>No Image Genated</p> :  <Image
           src={courseData?.imagePrompt || '/default-image.jpg'}
           alt="course-img"
           width={800}
           height={400}
           className="w-full h-60 sm:h-72  object-cover object-top rounded-md"
         />
+      }
+       
       </div>
     </div>
   );

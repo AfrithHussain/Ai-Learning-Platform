@@ -25,7 +25,7 @@ function AppHeader({hideSideBar = false, showBtn = false, setCollapse}) {
     
   return (
     <div className={` ${hideSideBar ? 'flex justify-end  border-b items-center   p-3 gap-5 shadow' : 'flex  justify-between sticky top-0 items-center  border-b p-3 gap-5 shadow'}`}>
-       {!hideSideBar && <div className=''><SidebarTrigger onClick={()=> setCollapse(prev => !prev)} /></div>}
+       {!hideSideBar && <div className='lg:invisible visible '><SidebarTrigger onClick={()=> setCollapse(prev => !prev)} /></div>}
    
     
     <div className="flex items-center gap-5">
@@ -58,9 +58,7 @@ function AppHeader({hideSideBar = false, showBtn = false, setCollapse}) {
         <DropdownMenuItem onClick={() => setTheme("dark")}>
           Dark
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("system")}>
-          System
-        </DropdownMenuItem>
+        
       </DropdownMenuContent>
     </DropdownMenu>
       </div>
