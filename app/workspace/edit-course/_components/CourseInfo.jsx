@@ -1,7 +1,7 @@
 "use client"
 import { Button } from '@/components/ui/button';
 import axios from 'axios';
-import { Book, Clock, IndentIncrease, PlayCircle, Settings } from 'lucide-react';
+import { Book, Clock, ImageIcon, IndentIncrease, PlayCircle, Settings } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -94,18 +94,24 @@ function CourseInfo({ courseData, viewCourse }) {
 
       {/* Right content (image) */}
       <div className="w-full lg:w-1/2">
-
-      {
-        courseData?.imagePrompt === null ? <p className='text-center'>No Image Genated</p> :  <Image
-          src={courseData?.imagePrompt || '/default-image.jpg'}
-          alt="course-img"
-          width={800}
-          height={400}
-          className="w-full h-60 sm:h-72  object-cover object-top rounded-md"
-        />
-      }
-       
-      </div>
+  {courseData?.imagePrompt === null ? (
+    // This div will now show up when there is no image
+    <div className="flex flex-col gap-3 h-60 w-full items-center justify-center text-gray-500 rounded-md bg-gray-200 dark:bg-neutral-800 sm:h-72">
+      {/* You can optionally keep an icon or text here */}
+      <ImageIcon className="h-10 w-10 text-gray-400 dark:text-neutral-500" />
+      <p className=' font-medium'>No Image Genrated</p>
+    </div>
+  ) : (
+    // This Image component shows when an image is present
+    <Image
+      src={courseData.imagePrompt}
+      alt="course-img"
+      width={800}
+      height={400}
+      className="h-60 w-full rounded-md object-cover object-top sm:h-72"
+    />
+  )}
+</div>
     </div>
   );
 }

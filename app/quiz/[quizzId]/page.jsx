@@ -6,6 +6,7 @@ import { useParams } from "next/navigation";
 import axios from "axios";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { Loader2, LoaderPinwheel } from "lucide-react";
 
 function Page() {
   const { quizzId } = useParams();
@@ -41,7 +42,12 @@ function Page() {
  
 
   if (isLoading) {
-    return <div>Loading quiz...</div>;
+    return (
+      <div className="flex gap-3 items-center text-xl justify-center mt-72 text-neutral-600 dark:text-neutral-100">
+        <div>Loading quiz </div>
+        <Loader2 className="animate-spin"/>
+      </div>
+    );
   }
 
   if (quizzData.length === 0) {

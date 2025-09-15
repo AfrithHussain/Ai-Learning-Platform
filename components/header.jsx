@@ -122,7 +122,6 @@ export const HeroHeader = () => {
         <SignUpButton >
                                 <Button
                                     asChild
-                                    variant="outline"
                                     size="sm"
                                     className={cn(isScrolled && 'lg:hidden')}>
                                        
@@ -153,14 +152,22 @@ export const HeroHeader = () => {
       </DropdownMenuContent>
     </DropdownMenu>
                                 </div>
+                                 
+                                <SignedOut>
+        <SignUpButton >
                                 <Button
                                     asChild
+                                   
                                     size="sm"
-                                    className={cn(isScrolled ? 'lg:inline-flex' : 'hidden')}>
-                                    <Link href="#">
-                                        <span>Get Started</span>
-                                    </Link>
-                                </Button>
+                                     className={cn(isScrolled ? 'lg:inline-flex' : 'hidden')}>
+                                       
+          <span className='cursor-pointer'>Getting Started</span>
+           </Button>
+          
+
+        </SignUpButton>
+      </SignedOut>
+                               
                             </div>
                         </div>
                     </div>

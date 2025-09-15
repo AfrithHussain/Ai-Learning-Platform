@@ -6,6 +6,7 @@ import Image from 'next/image'
 import { TextEffect } from './ui/text-effect'
 import { AnimatedGroup } from './ui/animated-group'
 import { HeroHeader } from '@/components/header'
+import { SignedOut, SignInButton } from '@clerk/nextjs'
 
 const transitionVariants = {
     item: {
@@ -118,7 +119,7 @@ export default function HeroSection() {
                                     delay={0.5}
                                     as="p"
                                     className="mx-auto mt-8 max-w-2xl text-balance text-lg">
-                                    Our platform tailors courses to your skills, goals, and time — enhanced with gamification like streaks, badges & leaderboards. Start your journey to smarter, faster learning today.
+                                    Our platform tailors courses to your skills, goals, and time — enhanced with gamification like  badges, progress & quiz. Start your journey to smarter, faster learning today.
                                 </TextEffect>
 
                                 <AnimatedGroup
@@ -137,11 +138,15 @@ export default function HeroSection() {
                                     <div
                                         key={1}
                                         className="bg-foreground/10 rounded-[calc(var(--radius-xl)+0.125rem)] border p-0.5">
-                                        <Button asChild size="lg" className="rounded-xl px-5 text-base">
-                                            <Link href="#get-started">
-                                                <span className="text-nowrap">Start Learning Free</span>
-                                            </Link>
+                                       <SignedOut>
+                                        <SignInButton>
+                                             <Button asChild size="lg" className="rounded-xl px-5 text-base">
+                                            
+                                                <span className="text-nowrap cursor-pointer">Start Learning Free</span>
+                                           
                                         </Button>
+                                        </SignInButton>
+                                       </SignedOut>
                                     </div>
                                     <Button
                                         key={2}

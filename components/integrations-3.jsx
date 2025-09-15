@@ -55,9 +55,7 @@ export default function IntegrationsSection() {
                                 making it easy to bring AI-powered courses into your daily workflow.
                             </p>
 
-                            <Button variant="outline" size="sm" asChild>
-                                <Link href="#integrations">Explore Integrations</Link>
-                            </Button>
+                           
                         </div>
                     </div>
                 </div>

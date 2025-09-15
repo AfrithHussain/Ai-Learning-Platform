@@ -37,7 +37,7 @@ export default function ContentSection() {
                         <div className="pt-6">
                             <blockquote className="border-l-4 pl-4">
                                 <p>
-                                    Learning with this platform feels like having a personal AI tutor. It keeps me motivated with streaks and badges, while tailoring lessons that actually fit my pace.
+                                    Learning with this platform feels like having a personal AI tutor. It keeps me motivated with badges and taking quizz, while tailoring lessons that actually fit my pace.
                                 </p>
 
                                 <div className="mt-6 space-y-3">

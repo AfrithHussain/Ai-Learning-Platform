@@ -17,115 +17,81 @@ export default function Pricing() {
                     </p>
                 </div>
 
-                <div className="mt-8 grid gap-6 md:mt-20 md:grid-cols-3">
-                    
-                    {/* Free Plan */}
-                    <Card className="flex flex-col">
-                        <CardHeader>
-                            <CardTitle className="font-medium">Starter</CardTitle>
-                            <span className="my-3 block text-2xl font-semibold">$0 / mo</span>
-                            <CardDescription className="text-sm">For individuals</CardDescription>
-                        </CardHeader>
+                {/* The grid is now a 2-column grid, with a max-width and centered with mx-auto */}
+<div className="mx-auto mt-8 grid max-w-4xl gap-8 md:mt-20 md:grid-cols-2">
+    
+    {/* Free Plan */}
+    <Card className="flex flex-col">
+        <CardHeader>
+            <CardTitle className="font-medium">Starter</CardTitle>
+            <span className="my-3 block text-2xl font-semibold">$0 / mo</span>
+            <CardDescription className="text-sm">For individuals</CardDescription>
+        </CardHeader>
 
-                        <CardContent className="space-y-4">
-                            <hr className="border-dashed" />
-                            <ul className="list-outside space-y-3 text-sm">
-                                {[
-                                    'AI-Generated Learning Path',
-                                    'Basic Progress Tracking',
-                                    'Community Access'
-                                ].map((item, index) => (
-                                    <li key={index} className="flex items-center gap-2">
-                                        <Check className="size-3" />
-                                        {item}
-                                    </li>
-                                ))}
-                            </ul>
-                        </CardContent>
+        <CardContent className="space-y-4">
+            <hr className="border-dashed" />
+            <ul className="list-outside space-y-3 text-sm">
+                {[
+                    'Generate up to 3 AI Courses',
+                    'Basic Progress Tracking',
+                    'Community Access'
+                ].map((item, index) => (
+                    <li key={index} className="flex items-center gap-2">
+                        <Check className="size-3" />
+                        {item}
+                    </li>
+                ))}
+            </ul>
+        </CardContent>
 
-                        <CardFooter className="mt-auto">
-                            <Button asChild variant="outline" className="w-full">
-                                <Link href="">Start Free</Link>
-                            </Button>
-                        </CardFooter>
-                    </Card>
+        <CardFooter className="mt-auto">
+            <Button asChild variant="outline" className="w-full">
+                <Link href="/sign-up">Start Free</Link>
+            </Button>
+        </CardFooter>
+    </Card>
 
-                    {/* Pro Plan */}
-                    <Card className="relative">
-                        <span
-                            className="bg-linear-to-br/increasing absolute inset-x-0 -top-3 mx-auto flex h-6 w-fit items-center rounded-full from-purple-400 to-amber-300 px-3 py-1 text-xs font-medium text-amber-950 ring-1 ring-inset ring-white/20 ring-offset-1 ring-offset-gray-950/5">
-                            Most Popular
-                        </span>
+    {/* Pro Plan */}
+    <Card className="relative border-purple-400">
+        <span
+            className="bg-gradient-to-br absolute inset-x-0 -top-3 mx-auto flex h-6 w-fit items-center rounded-full from-purple-400 to-amber-300 px-3 py-1 text-xs font-medium text-amber-950 ring-1 ring-inset ring-white/20 ring-offset-1 ring-offset-gray-950/5">
+            Most Popular
+        </span>
 
-                        <div className="flex flex-col">
-                            <CardHeader>
-                                <CardTitle className="font-medium">Pro Learner</CardTitle>
-                                <span className="my-3 block text-2xl font-semibold">$19 / mo</span>
-                                <CardDescription className="text-sm">For dedicated learners</CardDescription>
-                            </CardHeader>
+        <div className="flex flex-col">
+            <CardHeader>
+                <CardTitle className="font-medium">Pro</CardTitle>
+                <span className="my-3 block text-2xl font-semibold">$19 / mo</span>
+                <CardDescription className="text-sm">For dedicated learners</CardDescription>
+            </CardHeader>
 
-                            <CardContent className="space-y-4">
-                                <hr className="border-dashed" />
-                                <ul className="list-outside space-y-3 text-sm">
-                                    {[
-                                        'Everything in Starter',
-                                        'Unlimited AI Recommendations',
-                                        'Skill Progress Reports',
-                                        'Access to All Templates',
-                                        'Offline Mode (Mobile)',
-                                        'Priority Support',
-                                        'Weekly Learning Insights',
-                                        'Customizable Study Schedule',
-                                        'Early Access to New Features',
-                                        'Enhanced Security'
-                                    ].map((item, index) => (
-                                        <li key={index} className="flex items-center gap-2">
-                                            <Check className="size-3" />
-                                            {item}
-                                        </li>
-                                    ))}
-                                </ul>
-                            </CardContent>
+            <CardContent className="space-y-4">
+                <hr className="border-dashed" />
+                <ul className="list-outside space-y-3 text-sm">
+                    {[
+                        'Generate up to 6 AI Courses',
+                        'Advanced Progress Analytics',
+                        'Skill Progress Reports',
+                        'Priority Support',
+                        'Everything in Starter'
+                    ].map((item, index) => (
+                        <li key={index} className="flex items-center gap-2">
+                            <Check className="size-3" />
+                            {item}
+                        </li>
+                    ))}
+                </ul>
+            </CardContent>
 
-                            <CardFooter>
-                                <Button asChild className="w-full">
-                                    <Link href="">Upgrade to Pro</Link>
-                                </Button>
-                            </CardFooter>
-                        </div>
-                    </Card>
+            <CardFooter className="mt-auto">
+                <Button asChild className="w-full">
+                    <Link href="/sign-up">Upgrade to Pro</Link>
+                </Button>
+            </CardFooter>
+        </div>
+    </Card>
 
-                    {/* Startup Plan */}
-                    <Card className="flex flex-col">
-                        <CardHeader>
-                            <CardTitle className="font-medium">Team</CardTitle>
-                            <span className="my-3 block text-2xl font-semibold">$29 / mo</span>
-                            <CardDescription className="text-sm">For small teams</CardDescription>
-                        </CardHeader>
-
-                        <CardContent className="space-y-4">
-                            <hr className="border-dashed" />
-                            <ul className="list-outside space-y-3 text-sm">
-                                {[
-                                    'Everything in Pro',
-                                    'Team Progress Dashboard',
-                                    'Collaboration Tools'
-                                ].map((item, index) => (
-                                    <li key={index} className="flex items-center gap-2">
-                                        <Check className="size-3" />
-                                        {item}
-                                    </li>
-                                ))}
-                            </ul>
-                        </CardContent>
-
-                        <CardFooter className="mt-auto">
-                            <Button asChild variant="outline" className="w-full">
-                                <Link href="">Get Team Access</Link>
-                            </Button>
-                        </CardFooter>
-                    </Card>
-                </div>
+</div>
             </div>
         </section>
     );

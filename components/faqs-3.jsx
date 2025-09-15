@@ -12,11 +12,11 @@ export default function FAQsThree() {
             answer: 'Our AI analyzes your goals, skill level, and available study time to create a personalized roadmap. It updates dynamically as you make progress or change your preferences.',
         },
         {
-            id: 'item-2',
-            icon: 'credit-card',
-            question: 'Is there a free plan available?',
-            answer: 'Yes! We offer a free plan with core features like AI-generated learning paths and progress tracking. You can upgrade anytime to unlock advanced features such as reports, templates, and team dashboards.',
-        },
+    id: 'item-2',
+    icon: 'credit-card',
+    question: 'Is there a free plan available?',
+    answer: 'Yes! Our free Starter plan is a great way to begin and allows you to generate up to 3 complete AI courses. If you need more, our Pro plan increases the limit to 6 courses and unlocks advanced features like AI tutor support and detailed progress analytics.'
+},
         {
             id: 'item-3',
             icon: 'zap',

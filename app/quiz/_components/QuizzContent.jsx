@@ -50,7 +50,7 @@ function QuizzContent({ quizzId, quizData }) {
         {/* Quiz Header */}
         <div className="flex justify-between items-center w-full">
           <div>
-            <h1 className="text-4xl font-bold tracking-tight">{quiz.quizTitle.toUpperCase()}</h1>
+            <h1 className="text-4xl font-bold tracking-tight text-neutral-900 dark:text-neutral-200">{quiz.quizTitle.toUpperCase()}</h1>
             <p className="text-neutral-400 text-lg">Test your knowledge on this course.</p>
           </div>
         </div>
@@ -66,7 +66,7 @@ function QuizzContent({ quizzId, quizData }) {
         {/* Questions */}
         <div className="flex flex-col gap-12 w-full">
           {quiz.questions.map((q, index) => (
-            <div key={index} className="flex flex-col gap-6 bg-[#1a1a2e] rounded-xl p-6">
+            <div key={index} className="flex flex-col gap-6 bg-[#1a1a2efb] rounded-xl p-6">
               <h2 className="text-lg font-bold">
                 {index + 1}. {q.question}
               </h2>
@@ -139,7 +139,7 @@ function QuizzContent({ quizzId, quizData }) {
               ref={submitButtonRef}
               onClick={handleSubmit}
               disabled={!isAllAnswered}
-              className={`px-6 h-12 rounded-md ${isAllAnswered ? 'bg-[#1a1a2e]' : 'bg-gray-700 cursor-not-allowed'} hover:bg-[#262643] text-white`}
+              className={`px-6 h-12 rounded-md ${isAllAnswered ? 'bg-[#1a1a2e]' : 'bg-gray-700 cursor-not-allowed'} hover:bg-[#262643] cursor-pointer text-white`}
             >
               Submit Quiz
             </ConfettiButton>

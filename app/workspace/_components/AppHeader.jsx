@@ -24,7 +24,7 @@ function AppHeader({hideSideBar = false, showBtn = false, setCollapse}) {
   
     
   return (
-    <div className={` ${hideSideBar ? 'flex justify-end  border-b items-center   p-3 gap-5 shadow' : 'flex  justify-between sticky top-0 items-center  border-b p-3 gap-5 shadow'}`}>
+    <div className={`bg-background z-50 ${hideSideBar ? 'flex justify-end  border-b items-center   p-3 gap-5 shadow' : 'flex  justify-between sticky top-0 items-center  border-b p-3 gap-5 shadow'}`}>
        {!hideSideBar && <div className='lg:invisible visible '><SidebarTrigger onClick={()=> setCollapse(prev => !prev)} /></div>}
    
     
