@@ -1,6 +1,6 @@
 import { db } from "@/config/db";
 import { courseList, enrollCourseTable } from "@/config/schema";
-import { currentUser } from "@clerk/nextjs/server"
+import { currentUser, auth } from "@clerk/nextjs/server"
 import { and, desc, eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 
@@ -11,6 +11,8 @@ import { NextResponse } from "next/server";
  export async function POST(req) {   
     const {courseId} = await  req.json()
     const user =await currentUser();
+    const { has } = await auth();
+    const hasBronzePlan = has({ plan: 'starter' });
 
     // if the user is already enrolled
 
@@ -26,6 +28,12 @@ import { NextResponse } from "next/server";
         }).returning(enrollCourseTable)
 
         return NextResponse.json(result)
+    }
+   else if(enrolledCourse.length >= 2 && !hasBronzePlan){
+          
+              return NextResponse.json({'resp': 'Course Limit Reached'})
+          
+          
     }
     return NextResponse.json({'res': 'response already submitted'})
   }

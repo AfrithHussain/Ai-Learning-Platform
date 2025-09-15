@@ -14,7 +14,7 @@ export async function GET(req) {
     if(courseId == 0){
         const result = await db.select().from(courseList).where(sql`${courseList.courseDataContent}::jsonb != '{}' ::jsonb`)
 
-       return NextResponse.json(result )
+       return NextResponse.json(result)
     }
 
     if(courseId){

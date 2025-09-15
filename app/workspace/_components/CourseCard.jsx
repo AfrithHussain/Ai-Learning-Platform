@@ -21,7 +21,9 @@ function CourseCard({ course }) {
       const result = await axios.post("/api/enroll-course", {
         courseId: course?.cid,
       });
-
+      if(result.data.resp === "Course Limit Reached"){
+        router.replace("/workspace/billing")
+      }
       if (result.data.res) {
         toast.info("Course already enrolled. Redirecting...");
       } else {

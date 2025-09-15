@@ -95,7 +95,8 @@ function AddCourseDialogBox({ children }) {
 
       console.log(result.data);
 
-      if (result.data.resp === 'limit reached') {
+
+      if (result.data.resp === 'Course limit reached') {
         toast.warning('Please Subscribe to plan');
         setOpen(false);
         coursePath.replace('/workspace/billing');
