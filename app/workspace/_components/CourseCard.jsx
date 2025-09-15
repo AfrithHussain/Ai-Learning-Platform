@@ -22,14 +22,19 @@ function CourseCard({ course }) {
         courseId: course?.cid,
       });
       if(result.data.resp === "Course Limit Reached"){
+        toast.info("Course Limit Reached");
+
         router.replace("/workspace/billing")
       }
-      if (result.data.res) {
+     else if (result.data.res) {
         toast.info("Course already enrolled. Redirecting...");
+         router.replace("/workspace");
       } else {
         toast.success("Course enrolled successfully!");
+         router.replace("/workspace");
       }
-      router.replace("/workspace");
+     
+      console.log(result.data)
 
     } catch (e) {
       toast.error("An error occurred. Please try again.");

@@ -8,35 +8,49 @@ import { NextResponse } from "next/server";
  
  
  
- export async function POST(req) {   
-    const {courseId} = await  req.json()
-    const user =await currentUser();
-    const { has } = await auth();
-    const hasBronzePlan = has({ plan: 'starter' });
+export async function POST(req) {
+  const { courseId } = await req.json();
+  const user = await currentUser();
+  const { has } = await auth();
+  const hasBronzePlan = has({ plan: 'starter' });
 
-    // if the user is already enrolled
+  // Check if already enrolled
+  const enrolledCourse = await db
+    .select()
+    .from(enrollCourseTable)
+    .where(
+      and(
+        eq(enrollCourseTable.cid, courseId),
+        eq(enrollCourseTable.email, user?.primaryEmailAddress?.emailAddress)
+      )
+    );
 
-    const enrolledCourse =await db.select().from(enrollCourseTable).where(and(eq(enrollCourseTable.cid, courseId), eq(enrollCourseTable.email, user?.primaryEmailAddress?.emailAddress)))
-     
-
-    // if the user is not enrolled , then enroll
-
-    if(enrolledCourse.length === 0){
-        const result = await db.insert(enrollCourseTable).values({
-            cid:courseId,
-            email:user?.primaryEmailAddress.emailAddress
-        }).returning(enrollCourseTable)
-
-        return NextResponse.json(result)
-    }
-   else if(enrolledCourse.length >= 2 && !hasBronzePlan){
-          
-              return NextResponse.json({'resp': 'Course Limit Reached'})
-          
-          
-    }
-    return NextResponse.json({'res': 'response already submitted'})
+  if (enrolledCourse.length > 0) {
+    return NextResponse.json({ res: 'response already submitted' });
   }
+
+  // Check total number of enrolled courses
+  const totalEnrolled = await db
+    .select()
+    .from(enrollCourseTable)
+    .where(eq(enrollCourseTable.email, user?.primaryEmailAddress?.emailAddress));
+
+  if (totalEnrolled.length >= 3 && !hasBronzePlan) {
+    return NextResponse.json({ resp: 'Course Limit Reached' });
+  }
+
+  // Enroll the course
+  const result = await db
+    .insert(enrollCourseTable)
+    .values({
+      cid: courseId,
+      email: user?.primaryEmailAddress.emailAddress,
+    })
+    .returning(enrollCourseTable);
+
+  return NextResponse.json(result);
+};
+
 
 
 export async function GET(req){
