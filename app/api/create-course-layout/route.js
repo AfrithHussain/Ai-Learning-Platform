@@ -7,7 +7,7 @@ import axios from 'axios';
 import { eq } from 'drizzle-orm';
 import { ai } from '@/lib/ai';
 
-const PROMPT = `Generate Learning Course depends on following details. in which Make sure to add Course Name, Description, Course Banner Image Prompt (Create a modern, flat-style 2D digital illustration representing user Topic. Include UI/UX elements such as mockup screens, text blocks, icons, buttons, and creative workspace tools. Add symbolic elements related to user Course, like sticky notes, design components, and visual aids. Use a vibrant color palette (blues, purples, oranges) with a clean, professional look. The illustration should feel creative, tech-savvy, and educational, ideal for visualizing concepts in user Course) for Course Banner in 3D format Chapter Name, Topic under each chapters , Duration for each chapters etc, in JSON format only
+const PROMPT = `Generate Learning Course depends on following details. in which Make sure to add Course Name, Description, Course Banner Image Prompt (Create a highly realistic, cinematic 3D render for a course banner on the user's Topic. The image should feature a central, holographic interface floating above a sleek, modern desk. This interface displays key symbols, data points, and abstract visualizations related to the user's Course. The background is a slightly out-of-focus, sophisticated learning environment or office with warm, ambient lighting. The overall mood should be professional, innovative, and futuristic, emphasizing cutting-edge knowledge and practical application. Use a polished, high-resolution style with realistic textures, reflections, and lighting) for Course Banner, Chapter Name, Topic under each chapters , Duration for each chapters etc, in JSON format only
 Schema: {
 "course": {
 "name": "string",
@@ -64,7 +64,7 @@ export async function POST(req) {
     }
 
     const { courseId, ...formInput } = await req.json();
-    console.log("Received courseId from client:", courseId);
+    
 
     // Gemini API setup
     const tools = [{ googleSearch: {} }];

@@ -24,13 +24,13 @@ function AppHeader({hideSideBar = false, showBtn = false, setCollapse}) {
   
     
   return (
-    <div className={`bg-background z-50 ${hideSideBar ? 'flex justify-end  border-b items-center   p-3 gap-5 shadow' : 'flex  justify-between sticky top-0 items-center  border-b p-3 gap-5 shadow'}`}>
+    <div className={`bg-background  ${hideSideBar ? 'flex justify-end  border-b items-center   p-3 gap-5 shadow' : 'flex  justify-between sticky top-0 items-center  border-b p-3 gap-5 shadow'}`}>
        {!hideSideBar && <div className='lg:invisible visible '><SidebarTrigger onClick={()=> setCollapse(prev => !prev)} /></div>}
    
     
     <div className="flex items-center gap-5">
         {hideSideBar 
-        ? <Link className=' ' href={'/workspace'}><Button variant={'outline'}>Back</Button></Link> 
+        ? <Link className=' ' href={'/workspace'}><Button variant={'outline'} className={'cursor-pointer'}>Back</Button></Link> 
         : (
           <>
             {!isLoaded ? (
@@ -45,7 +45,7 @@ function AppHeader({hideSideBar = false, showBtn = false, setCollapse}) {
       <div className="">
         <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="icon">
+        <Button variant="outline" className={'cursor-pointer'} size="icon">
           <Sun className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
           <Moon className="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
           <span className="sr-only">Toggle theme</span>

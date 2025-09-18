@@ -2,43 +2,37 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Card, CardContent } from '@/components/ui/card'
 
 const testimonials = [
-    
     {
-        name: 'Yves Kalume',
-        role: 'GDE - Android',
-        image: 'https://randomuser.me/api/portraits/men/6.jpg',
-        quote: 'With no experience in webdesign I just redesigned my entire website in a few minutes with tailwindcss thanks to Tailus.',
+        name: 'Ananya Sharma',
+        role: 'AI Learner',
+        image: 'https://randomuser.me/api/portraits/women/21.jpg',
+        quote: 'With no prior knowledge in AI, I completed multiple modules in minutes thanks to MindLyst’s intuitive and interactive learning platform.',
     },
     {
-        name: 'Yucel Faruksahan',
-        role: 'Tailkits Creator',
-        image: 'https://randomuser.me/api/portraits/men/7.jpg',
-        quote: 'Great work on tailfolio template. This is one of the best personal website that I have seen so far :)',
+        name: 'Rohit Gupta',
+        role: 'Machine Learning Engineer',
+        image: 'https://randomuser.me/api/portraits/men/33.jpg',
+        quote: 'Great experience using MindLyst for AI education. This is one of the most well-structured learning platforms I have encountered so far.',
     },
-   
     {
-        name: 'Shekinah Tshiokufila',
-        role: 'Senior Software Engineer',
-        image: 'https://randomuser.me/api/portraits/men/4.jpg',
-        quote: 'Tailus is redefining the standard of web design, with these blocks it provides an easy and efficient way for those who love beauty but may lack the time to implement it. I can only recommend this incredible wonder.',
+        name: 'Priya Reddy',
+        role: 'Data Scientist',
+        image: 'https://randomuser.me/api/portraits/women/45.jpg',
+        quote: 'MindLyst is redefining AI learning standards by providing clear blocks of content, making it simple for those who value knowledge but lack time to learn traditionally. Highly recommended.',
     },
-    
     {
-        name: 'Zeki',
-        role: 'Founder of ChatExtend',
-        image: 'https://randomuser.me/api/portraits/men/5.jpg',
-        quote: "Using TailsUI has been like unlocking a secret design superpower. It's the perfect fusion of simplicity and versatility, enabling us to create UIs that are as stunning as they are user-friendly.",
+        name: 'Vikram Singh',
+        role: 'AI Researcher',
+        image: 'https://randomuser.me/api/portraits/men/29.jpg',
+        quote: 'Using MindLyst felt like unlocking a hidden superpower for learning. The perfect combination of simplicity and deep content helped me grow fast in AI.',
     },
-    
-   
-    
-    {
-        name: 'Eric Ampire',
-        role: 'Mobile Engineer at @BRPNews • @GoogleDevExpert for Android',
-        image: 'https://randomuser.me/api/portraits/men/12.jpg',
-        quote: 'Tailus templates are the perfect solution for anyone who wants to create a beautiful and functional website without any web design experience. The templates are easy to use, customizable, and responsive, and the support team is always available to help. I highly recommend Tailus templates to anyone who is looking to create a website.',
-    },
-    
+   {
+    name: 'Anjali Verma',
+    role: 'Software Developer',
+    image: 'https://randomuser.me/api/portraits/women/55.jpg',
+    quote: 'MindLyst offers a perfect solution for anyone wanting to learn AI without prior experience. It’s easy to use, customizable, and highly responsive to different learning needs. The platform’s interactive tutorials, real-world projects, and clear learning paths helped me build confidence and practical skills in AI development quickly. I highly recommend it to beginners and professionals alike.',
+},
+
 ]
 
 const chunkArray = (array, chunkSize) => {
@@ -57,8 +51,8 @@ export default function WallOfLoveSection() {
             <div className="py-16 md:py-32">
                 <div className="mx-auto max-w-6xl px-6">
                     <div className="text-center">
-                        <h2 className="text-3xl font-semibold">Loved by the Community</h2>
-                        <p className="mt-6">Harum quae dolore orrupti aut temporibus ariatur.</p>
+                        <h2 className="text-3xl font-semibold">Loved by AI Learners</h2>
+                        <p className="mt-6 text-gray-600">Thousands are advancing their AI knowledge faster and smarter using MindLyst.</p>
                     </div>
                     <div className="mt-8 grid gap-3 sm:grid-cols-2 md:mt-12 lg:grid-cols-3">
                         {testimonialChunks.map((chunk, chunkIndex) => (
@@ -68,12 +62,11 @@ export default function WallOfLoveSection() {
                                         <CardContent className="grid grid-cols-[auto_1fr] gap-3 pt-6">
                                             <Avatar className="size-9">
                                                 <AvatarImage alt={name} src={image} loading="lazy" width="120" height="120" />
-                                                <AvatarFallback>ST</AvatarFallback>
+                                                <AvatarFallback>{name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
                                             </Avatar>
 
                                             <div>
                                                 <h3 className="font-medium">{name}</h3>
-
                                                 <span className="text-muted-foreground block text-sm tracking-wide">{role}</span>
 
                                                 <blockquote className="mt-3">

@@ -55,7 +55,7 @@ function EnrollCourseList() {
               Looks like you have not created any course!
             </p>
             <AddCourseDialogBox>
-              <Button className={"mt-5"}>
+              <Button className={"mt-5 cursor-pointer"}>
                 <Sparkle className="mr-2 h-4 w-4" /> Create your first course
               </Button>
             </AddCourseDialogBox>

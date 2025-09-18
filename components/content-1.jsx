@@ -2,7 +2,7 @@ import Image from 'next/image'
 
 export default function ContentSection() {
     return (
-        <section className="py-16 md:py-32">
+        <section id='about' className="py-16 md:py-32">
             <div className="mx-auto max-w-5xl space-y-8 px-6 md:space-y-16">
                 <h2 className="relative z-10 max-w-xl text-4xl font-medium lg:text-5xl">
                     The future of learning, powered by AI.
@@ -12,14 +12,14 @@ export default function ContentSection() {
                         <div
                             className="bg-linear-to-b aspect-76/59 relative rounded-2xl from-zinc-300 to-transparent p-px dark:from-zinc-700">
                             <Image
-                                src="/payments.png"
-                                className="hidden rounded-[15px] dark:block"
+                                src="/Ai-imagecard-dark.png"
+                                className="hidden rounded-[15px]  lg:h-[330px] lg:object-cover dark:block"
                                 alt="AI learning illustration dark"
                                 width={1207}
                                 height={929} />
                             <Image
-                                src="/payments-light.png"
-                                className="rounded-[15px] shadow dark:hidden"
+                                src="/Ai-imagecard.png"
+                                className="rounded-[15px] lg:h-[330px] lg:object-cover shadow dark:hidden"
                                 alt="AI learning illustration light"
                                 width={1207}
                                 height={929} />
@@ -43,9 +43,9 @@ export default function ContentSection() {
                                 <div className="mt-6 space-y-3">
                                     <cite className="block font-medium">Afrith Hussain, Developer</cite>
                                     <img
-                                        className="h-5 w-fit dark:invert"
-                                        src="https://html.tailus.io/blocks/customers/nvidia.svg"
-                                        alt="Nvidia Logo"
+                                        className="h-6 w-fit dark:invert"
+                                        src="/code.png"
+                                        alt="codder"
                                         height="20"
                                         width="auto" />
                                 </div>

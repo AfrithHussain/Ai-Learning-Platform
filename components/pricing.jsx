@@ -5,7 +5,7 @@ import { Check } from 'lucide-react'
 
 export default function Pricing() {
     return (
-        <section className="py-16 md:py-32">
+        <section id='pricing' className="py-16 md:py-32">
             <div className="mx-auto max-w-6xl px-6">
                 <div className="mx-auto max-w-2xl space-y-6 text-center">
                     <h1 className="text-center text-4xl font-semibold lg:text-5xl">
@@ -18,7 +18,7 @@ export default function Pricing() {
                 </div>
 
                 {/* The grid is now a 2-column grid, with a max-width and centered with mx-auto */}
-<div className="mx-auto mt-8 grid max-w-4xl gap-8 md:mt-20 md:grid-cols-2">
+<div  className="mx-auto mt-8 grid max-w-4xl gap-8 md:mt-20 md:grid-cols-2">
     
     {/* Free Plan */}
     <Card className="flex flex-col">
@@ -61,7 +61,7 @@ export default function Pricing() {
         <div className="flex flex-col">
             <CardHeader>
                 <CardTitle className="font-medium">Pro</CardTitle>
-                <span className="my-3 block text-2xl font-semibold">$19 / mo</span>
+                <span className="my-3 block text-2xl font-semibold">$2 / mo</span>
                 <CardDescription className="text-sm">For dedicated learners</CardDescription>
             </CardHeader>
 

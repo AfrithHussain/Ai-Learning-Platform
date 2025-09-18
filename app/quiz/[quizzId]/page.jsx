@@ -57,7 +57,7 @@ function Page() {
   return (
     <div>
      <div className="border-b">
-       <Link className="flex justify-end mx-10 m-3  " href={'/workspace'}><Button  variant={'outline'}>Back</Button></Link>
+       <Link className="flex justify-end mx-10 m-3  " href={'/workspace'}><Button  className={'cursor-pointer'} variant={'outline'}>Back</Button></Link>
      </div>
       <QuizzContent quizzId={quizzId} quizData={quizzData} />
     </div>

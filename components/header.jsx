@@ -1,14 +1,9 @@
 'use client'
 import Link from 'next/link'
-import { Logo } from './logo'
 import { Menu, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import React from 'react'
-import { SignedOut, SignInButton, SignUpButton, useUser } from "@clerk/nextjs";
 import { cn } from '@/lib/utils'
-import { toast } from "sonner";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 import { Moon, Sun } from "lucide-react"
 import { useTheme } from "next-themes"
 import {
@@ -17,26 +12,21 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import Image from 'next/image'
 const menuItems = [
-    { name: 'Home', href: '#link' },
-    { name: 'About', href: '#link' },
-    { name: 'Features', href: '#link' },
-    { name: 'Pricing', href: '#link' },
-    { name: 'Contact', href: '#link' }
+    { name: 'Home', href: '#home' },
+    { name: 'About', href: '#about' },
+    { name: 'Features', href: '#features' },
+    { name: 'Pricing', href: '#pricing' },
+    { name: 'Contact', href: '#contact' }
 ]
 
 export const HeroHeader = () => {
     const [menuState, setMenuState] = React.useState(false)
     const [isScrolled, setIsScrolled] = React.useState(false)
-    const { isSignedIn } = useUser();
-  const router = useRouter();
+    
 
-  useEffect(() => {
-    if (isSignedIn) {
-      toast.success('Redirecting to the dashboard')
-      router.push("/workspace");
-    }
-  }, [isSignedIn, router]);
+
 
     React.useEffect(() => {
         const handleScroll = () => {
@@ -57,8 +47,10 @@ export const HeroHeader = () => {
                     <div
                         className="relative flex flex-wrap items-center justify-between gap-6 py-3 lg:gap-0 lg:py-4">
                         <div className="flex w-full justify-between lg:w-auto">
-                            <Link href="/" aria-label="home" className="flex items-center space-x-2">
-                                <Logo />
+                            <Link href="/sign-in" aria-label="home" className="flex items-center space-x-2">
+                                {/* The component's CSS will hide the logo when collapsed */}
+        <Image alt="logo-light" className="block dark:hidden mt-2 mx-auto " width={160} height={45} src="/logo.png" />
+         <Image alt="logo-dark" className="hidden dark:block mt-2 mx-auto" width={160} height={45} src="/logo-dark.png" />
                             </Link>
 
                             <button
@@ -103,39 +95,35 @@ export const HeroHeader = () => {
                             </div>
                             <div
                                 className="flex w-full flex-col space-y-3 sm:flex-row sm:gap-3 sm:space-y-0 md:w-fit">
-                                    <SignedOut>
-        <SignInButton >
+                              <Link href={'/sign-in'}>
+                                   
                                 <Button
                                     asChild
                                     variant="outline"
                                     size="sm"
-                                    className={cn(isScrolled && 'lg:hidden')}>
+                                    className={cn(isScrolled && 'lg:hidden') }>
                                        
           <span className='cursor-pointer'>login</span>
-           </Button>
+           </Button></Link>
           
 
-        </SignInButton>
-      </SignedOut>
+        
                                
-                                <SignedOut>
-        <SignUpButton >
+                               <Link href={'/sign-up'}>
+                                   
                                 <Button
                                     asChild
+                                    
                                     size="sm"
-                                    className={cn(isScrolled && 'lg:hidden')}>
+                                    className={cn(isScrolled && 'lg:hidden') }>
                                        
-          <span className='cursor-pointer'>Sign Up</span>
-           </Button>
-          
-
-        </SignUpButton>
-      </SignedOut>
+          <span className='cursor-pointer'>Sign up</span>
+           </Button></Link>
                                 {/* theme */}
                                 <div className="">
                                     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="icon">
+        <Button variant="outline" className={'cursor-pointer'} size="icon">
           <Sun className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
           <Moon className="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
           <span className="sr-only">Toggle theme</span>
@@ -153,20 +141,18 @@ export const HeroHeader = () => {
     </DropdownMenu>
                                 </div>
                                  
-                                <SignedOut>
-        <SignUpButton >
-                                <Button
+                                
+                                <Link href={'/sign-up'}><Button
                                     asChild
                                    
                                     size="sm"
-                                     className={cn(isScrolled ? 'lg:inline-flex' : 'hidden')}>
+                                     className={cn(isScrolled ? 'lg:inline-flex ' : 'hidden')}>
                                        
           <span className='cursor-pointer'>Getting Started</span>
-           </Button>
+           </Button></Link>
           
 
-        </SignUpButton>
-      </SignedOut>
+       
                                
                             </div>
                         </div>

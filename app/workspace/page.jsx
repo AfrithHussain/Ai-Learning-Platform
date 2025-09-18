@@ -5,6 +5,7 @@ import WelcomeBanner from './_components/WelcomeBanner';
 import Badges from "./_components/Badges";
 import EnrollCourseList from './_components/EnrollCourseList';
 
+
 function Work() {
   return (
     // We use a div with a max-width and center it for better spacing on very large screens.
@@ -34,6 +35,7 @@ function Work() {
         </div>
 
       </div>
+
     </div>
   )
 }

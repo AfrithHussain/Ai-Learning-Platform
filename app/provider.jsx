@@ -33,7 +33,7 @@ function Provider({ children }) {
 
             // Set the user detail from our database into the context
             setUserDetail(response.data);
-            console.log("User synced successfully:", response.data);
+           
 
         } catch (error) {
             // This will catch errors, including the 404 if the API route doesn't exist

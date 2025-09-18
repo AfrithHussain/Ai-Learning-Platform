@@ -49,6 +49,8 @@ function DynamicContentWithCopy({ htmlContent }) {
 
 function ChapterContent({ courseData, refreshData }) {
   const [loading, setLoading] = useState(true);
+  const [chapLoading, setChapLoading] = useState(false);
+
   const { courseId } = useParams();
   const { selectedChapterIndex, setSelectedChapterIndex } = useContext(SelectedChapterContext);
 
@@ -62,7 +64,7 @@ function ChapterContent({ courseData, refreshData }) {
   const isCompleted = !!completedChapters[selectedChapterIndex];
 
   const markAsCompleteHandler = async () => {
-    setLoading(true);
+    setChapLoading(true);
     let updatedChapters = { ...completedChapters };
 
     if (isCompleted) {
@@ -83,7 +85,7 @@ function ChapterContent({ courseData, refreshData }) {
       toast.error('Failed to update chapter status');
       console.error(error);
     } finally {
-      setLoading(false);
+      setChapLoading(false);
     }
   };
   
@@ -133,17 +135,17 @@ function ChapterContent({ courseData, refreshData }) {
     <div className="w-full">
       {/* Chapter header and mark complete */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mt-4">
-        <h2 className="text-2xl font-bold my-2">
+        <h2 className="text-3xl font-bold my-2">
         {courseData?.courses?.courseDataContent?.[selectedChapterIndex]?.courseData?.chapterName}
         </h2>
 
         <Button
           variant={isCompleted ? 'outline' : 'default'}
-          disabled={loading}
+          disabled={chapLoading}
           onClick={markAsCompleteHandler}
-          className="flex items-center space-x-2 mt-2 sm:mt-0"
+          className="flex items-center space-x-2 mt-2 sm:mt-0 cursor-pointer"
         >
-          {loading ? <Loader2Icon className="animate-spin" /> : isCompleted ? <X /> : <Verified />}
+          {chapLoading ? <Loader2Icon className="animate-spin" /> : isCompleted ? <X /> : <Verified />}
           {isCompleted ? 'Mark as Incomplete' : 'Mark as Completed'}
         </Button>
       </div>
@@ -190,7 +192,7 @@ function ChapterContent({ courseData, refreshData }) {
               variant="outline"
               disabled={selectedChapterIndex <= 0}
               onClick={() => setSelectedChapterIndex(selectedChapterIndex - 1)}
-              className="flex items-center justify-center space-x-2"
+              className="flex items-center justify-center space-x-2 cursor-pointer"
             >
               ← Prev Chapter
             </Button>
@@ -199,7 +201,7 @@ function ChapterContent({ courseData, refreshData }) {
               variant="outline"
               disabled={selectedChapterIndex >= totalChapters - 1}
               onClick={() => setSelectedChapterIndex(selectedChapterIndex + 1)}
-              className="flex items-center justify-center space-x-2"
+              className="flex items-center justify-center space-x-2 cursor-pointer"
             >
               Next Chapter →
             </Button>

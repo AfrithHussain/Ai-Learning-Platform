@@ -28,7 +28,7 @@ function ChapterSideBar({ courseData, loading }) {
   }
 
   return (
-    <div className="fixed top-0 left-0 w-[350px] p-4 bg-neutral-200 h-screen overflow-y-auto dark:bg-black">
+    <div className="fixed top-0 left-0 w-[350px] p-4 bg-neutral-200 h-screen overflow-y-auto dark:bg-neutral-950 dark:border-r-neutral-700 border" >
       <h1 className="text-xl font-bold p-4">Course Outline</h1>
 
       <Accordion type="single" collapsible>

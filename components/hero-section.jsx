@@ -32,7 +32,7 @@ export default function HeroSection() {
     return (
         <>
             <HeroHeader />
-            <main className="overflow-hidden">
+            <main id='home' className="overflow-hidden">
                 <div
                     aria-hidden
                     className="absolute inset-0 isolate hidden opacity-65 contain-strict lg:block">
@@ -138,26 +138,15 @@ export default function HeroSection() {
                                     <div
                                         key={1}
                                         className="bg-foreground/10 rounded-[calc(var(--radius-xl)+0.125rem)] border p-0.5">
-                                       <SignedOut>
-                                        <SignInButton>
-                                             <Button asChild size="lg" className="rounded-xl px-5 text-base">
+                                       
+                                            <Link href={'/sign-up'}> <Button asChild size="lg" className="rounded-xl px-5 text-base">
                                             
                                                 <span className="text-nowrap cursor-pointer">Start Learning Free</span>
                                            
-                                        </Button>
-                                        </SignInButton>
-                                       </SignedOut>
+                                        </Button></Link>
+                                       
                                     </div>
-                                    <Button
-                                        key={2}
-                                        asChild
-                                        size="lg"
-                                        variant="ghost"
-                                        className="h-10.5 rounded-xl px-5">
-                                        <Link href="#demo">
-                                            <span className="text-nowrap">Watch Demo</span>
-                                        </Link>
-                                    </Button>
+                                   
                                 </AnimatedGroup>
                             </div>
                         </div>
@@ -175,22 +164,22 @@ export default function HeroSection() {
                                 ...transitionVariants,
                             }}>
                             <div
-                                className="relative -mr-56 mt-8 overflow-hidden px-2 sm:mr-0 sm:mt-12 md:mt-20">
+                                className="relative -mr-56 mt-8 overflow-hidden px-2 sm:mr-0 sm:mt-12 md:mt-20 hidden md:block">
                                 <div
                                     aria-hidden
-                                    className="bg-linear-to-b to-background absolute inset-0 z-10 from-transparent from-35%" />
+                                    className="bg-linear-to-b to-background absolute inset-0 dark:z-10 dark:from-transparent from-35%" />
                                 <div
-                                    className="inset-shadow-2xs ring-background dark:inset-shadow-white/20 bg-background relative mx-auto max-w-6xl overflow-hidden rounded-2xl border p-4 shadow-lg shadow-zinc-950/15 ring-1">
+                                    className=" ring-background dark:inset-shadow-white/20 bg-background relative mx-auto max-w-6xl overflow-hidden rounded-2xl border p-4 shadow-lg shadow-zinc-950/15 ring-1">
                                     <Image
                                         className="bg-background aspect-15/8 relative hidden rounded-2xl dark:block"
-                                        src={"/learning-dashboard.png" || null}
+                                        src={"/Ai-image.jpg" || null}
                                         alt="AI Learning Dashboard"
                                         width="2700"
                                         height="1440" />
                                     <Image
                                         className="z-2 border-border/25 aspect-15/8 relative rounded-2xl border dark:hidden"
-                                        src={"/learning-dashboard-light.png" || null}
-                                        alt="AI Learning Dashboard"
+                                        src={"/Ai-image.jpg" || null}
+                                        alt="AI Learning Dashboard-lite"
                                         width="2700"
                                         height="1440" />
                                 </div>

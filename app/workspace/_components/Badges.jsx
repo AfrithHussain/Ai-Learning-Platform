@@ -16,15 +16,42 @@ function Badges() {
   const inProgressCourses = totalCourses - completedCourses;
 
   const badgeNames = [
-    "Beginner Learner",
-    "Knowledge Seeker",
-    "Curious Mind",
-    "Skill Builder",
-    "Course Conqueror",
-    "Knowledge Ninja",
-    "Learning Champion",
-    "Master Scholar",
-  ];
+  // Beginner / Early Stage
+  "First Stepper",
+  "Knowledge Seeker",
+  "Curious Mind",
+  
+  "Quick Starter",
+  "Daily Explorer",
+  "Learning Spark",
+  "Concept Catcher",
+
+  // Consistency & Progress
+  "Skill Builder",
+  "Streak Keeper",
+  "Dedicated Learner",
+  "Milestone Reacher",
+  "Persistence Pro",
+  "Growth Mindset",
+
+  // Skill & Knowledge Boost
+  "Course Conqueror",
+  "Knowledge Ninja",
+  "Skill Stacker",
+  "Topic Tamer",
+  "Quiz Crusher",
+  "Insight Hunter",
+  "Knowledge Architect",
+  "Master Scholar",
+  "Wisdom Warrior",
+  "Brainstorm Boss",
+  "AI Apprentice",
+  "Logic Legend",
+  "Code Commander",
+  "Mind Mastery",
+  "Genius Mode",
+];
+
 
   const badgeStyles = [
     { bg: "bg-blue-950", text: "text-blue-100" },
@@ -71,15 +98,18 @@ return (
           <p className="font-semibold text-gray-600 dark:text-gray-300">Badges Collected</p>
           <h1 className="font-bold text-4xl mt-1 text-cyan-900 dark:text-white">{completedCourses}</h1>
           <div className="flex flex-wrap gap-2 mt-3">
-            {badgeNames.slice(0, completedCourses).map((badge, i) => (
-              <Badge
-                key={i}
-                className={`text-[11px] px-2 py-1 ${badgeStyles[i % badgeStyles.length].bg} ${badgeStyles[i % badgeStyles.length].text}`}
-              >
-                {badge}
-              </Badge>
-            ))}
-          </div>
+  {badgeNames.slice(0, completedCourses * 2).map((badge, i) => (
+    <Badge
+      key={i}
+      className={`text-[11px] px-2 py-1 ${
+        badgeStyles[i % badgeStyles.length].bg
+      } ${badgeStyles[i % badgeStyles.length].text}`}
+    >
+      {badge}
+    </Badge>
+  ))}
+</div>
+
         </div>
 
         {/* Card 2: Courses Completed */}

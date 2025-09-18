@@ -34,7 +34,6 @@ function CourseCard({ course }) {
          router.replace("/workspace");
       }
      
-      console.log(result.data)
 
     } catch (e) {
       toast.error("An error occurred. Please try again.");
@@ -89,13 +88,14 @@ function CourseCard({ course }) {
               disabled={loading}
               onClick={enrollCourseHandler}
               size="sm"
+              className={'cursor-pointer'}
             >
               <PlayCircle className="h-4 w-4 mr-2" />
               Enroll Course
             </Button>
           ) : (
             <Link href={`/workspace/edit-course/${course?.cid}`}>
-              <Button size="sm" variant="outline">
+              <Button size="sm" variant="outline" className={'cursor-pointer'}>
                 <Settings className="h-4 w-4 mr-2" />
                 Generate Course
               </Button>

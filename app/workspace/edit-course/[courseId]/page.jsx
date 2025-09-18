@@ -25,7 +25,7 @@ function EditCourse({ viewCourse = false }) {
     try {
       setIsLoading(true);
       const result = await axios.get(`/api/get-course?courseId=${courseId}`);
-      console.log(result.data);
+   
       setCourseData(result.data);
     } catch (error) {
       console.error("Error fetching course data:", error);

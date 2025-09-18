@@ -1,8 +1,7 @@
 import { Gemini, Replit, MagicUI, VSCodium, MediaWiki, GooglePaLM } from '@/components/logos'
 import { LogoIcon } from './logo'
 import { cn } from '@/lib/utils'
-import { Button } from '@/components/ui/button'
-import Link from 'next/link'
+
 
 export default function IntegrationsSection() {
     return (

@@ -10,7 +10,8 @@ export async function POST(req) {
         return NextResponse.json({ error: "clerkId is required" }, { status: 400 });
     }
 
-    const users = await db.select().from(usersTable).where(eq(usersTable.clerkId, clerkId));
+    // Check if user already exists by email
+    const users = await db.select().from(usersTable).where(eq(usersTable.email, email));
 
     if (users.length === 0) {
         const newUser = await db.insert(usersTable).values({
@@ -22,10 +23,11 @@ export async function POST(req) {
         return NextResponse.json(newUser[0]);
     }
 
+    // If user already exists, return the existing user
     return NextResponse.json(users[0]);
-}
+};
 
 // Optional GET for debugging
 export async function GET(req) {
     return NextResponse.json({ message: "API is alive" });
-}
+};

@@ -57,7 +57,8 @@ function AppSideBar({collapse}) {
     <Sidebar collapsible="icon" >
       <SidebarHeader>
         {/* The component's CSS will hide the logo when collapsed */}
-        <Image alt="logo" width={130} height={40} src="/logo.svg" />
+        <Image alt="logo-light" className="block dark:hidden mt-2 mx-auto " width={160} height={45} src="/logo.png" />
+         <Image alt="logo-dark" className="hidden dark:block mt-2 mx-auto" width={160} height={45} src="/logo-dark.png" />
       </SidebarHeader>
 
       <SidebarContent>
@@ -65,7 +66,7 @@ function AppSideBar({collapse}) {
           {/* This button will also be hidden automatically */}
           <AddCourseDialogBox >
           
-           {collapse ? <Button variant={'outlined'} className="mt-1 w-full text-3xl hover:bg-neutral-100 dark:hover:bg-neutral-800 cursor-pointer dark:text-neutral-400 ">+</Button> : <Button className="mt-1 w-full">Create a Course</Button> } 
+          <Button className="mt-1 w-full cursor-pointer">Create a Course</Button> 
           </AddCourseDialogBox>
           
         </SidebarGroup>
