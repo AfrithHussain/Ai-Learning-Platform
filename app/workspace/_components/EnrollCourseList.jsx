@@ -48,8 +48,17 @@ function EnrollCourseList() {
             src={"/cartoon-img.png"}
             width={300}
             height={150}
+            className="block dark:hidden"
             alt="no-course-added"
           />
+           <Image
+            src={"/cartoon-img-dark.png"}
+            width={300}
+            height={150}
+            className="hidden dark:block"
+            alt="no-course-added"
+          />
+          
           <div className="flex flex-col justify-center items-center text-center">
             <p className="text-lg text-neutral-700 dark:text-neutral-300">
               Looks like you have not created any course!
