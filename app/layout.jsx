@@ -22,7 +22,9 @@ export default function RootLayout({ children }) {
         <ClerkProvider>
           <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
             <Provider>
-              <main>{children}</main>
+              <main>{children}
+                <Analytics/>
+              </main>
             </Provider>
             <Toaster />
           </ThemeProvider>
