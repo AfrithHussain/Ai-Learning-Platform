@@ -58,7 +58,7 @@ export async function POST(req) {
         .from(courseList)
         .where(eq(courseList.email, user?.primaryEmailAddress?.emailAddress));
 
-      if (result.length >= 3) {
+      if (result.length >= 2) {
         return NextResponse.json({ resp: 'Course limit reached' });
       }
     }

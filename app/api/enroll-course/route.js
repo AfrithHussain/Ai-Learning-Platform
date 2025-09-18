@@ -35,7 +35,7 @@ export async function POST(req) {
     .from(enrollCourseTable)
     .where(eq(enrollCourseTable.email, user?.primaryEmailAddress?.emailAddress));
 
-  if (totalEnrolled.length >= 3 && !hasBronzePlan) {
+  if (totalEnrolled.length >= 2 && !hasBronzePlan) {
     return NextResponse.json({ resp: 'Course Limit Reached' });
   }
 
