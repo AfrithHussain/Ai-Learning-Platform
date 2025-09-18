@@ -3,6 +3,7 @@ import { ThemeProvider } from "next-themes";
 import { Jost, Geist_Mono } from "next/font/google";
 import Provider from "./provider";
 import { Toaster } from "@/components/ui/sonner";
+import { Analytics } from "@vercel/analytics/next"
 import "./globals.css";
 
 const jost = Jost({ weight: ["500", "700"], subsets: ["latin"], variable: "--font-jost" });
