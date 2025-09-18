@@ -46,7 +46,7 @@ export default function Pricing() {
 
         <CardFooter className="mt-auto">
             <Button asChild variant="outline" className="w-full">
-                <Link href="https://accounts.mindlyst.xyz/sign-up">Start Free</Link>
+                <Link href="/sign-up">Start Free</Link>
             </Button>
         </CardFooter>
     </Card>
@@ -85,7 +85,7 @@ export default function Pricing() {
 
             <CardFooter className="mt-auto">
                 <Button asChild className="w-full">
-                    <Link href="https://accounts.mindlyst.xyz/sign-up">Upgrade to Pro</Link>
+                    <Link href="/sign-up">Upgrade to Pro</Link>
                 </Button>
             </CardFooter>
         </div>

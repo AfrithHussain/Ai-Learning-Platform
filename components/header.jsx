@@ -47,7 +47,7 @@ export const HeroHeader = () => {
                     <div
                         className="relative flex flex-wrap items-center justify-between gap-6 py-3 lg:gap-0 lg:py-4">
                         <div className="flex w-full justify-between lg:w-auto">
-                            <Link href="https://accounts.mindlyst.xyz/sign-in" aria-label="home" className="flex items-center space-x-2">
+                            <Link href="/sign-in" aria-label="home" className="flex items-center space-x-2">
                                 {/* The component's CSS will hide the logo when collapsed */}
         <Image alt="logo-light" className="block dark:hidden mt-2 mx-auto " width={160} height={45} src="/logo.png" />
          <Image alt="logo-dark" className="hidden dark:block mt-2 mx-auto" width={160} height={45} src="/logo-dark.png" />
@@ -95,7 +95,7 @@ export const HeroHeader = () => {
                             </div>
                             <div
                                 className="flex w-full flex-col space-y-3 sm:flex-row sm:gap-3 sm:space-y-0 md:w-fit">
-                              <Link href={'https://accounts.mindlyst.xyz/sign-in'}>
+                              <Link href={'/sign-in'}>
                                    
                                 <Button
                                     asChild
@@ -109,7 +109,7 @@ export const HeroHeader = () => {
 
         
                                
-                               <Link href={'https://accounts.mindlyst.xyz/sign-up'}>
+                               <Link href={'/sign-up'}>
                                    
                                 <Button
                                     asChild
@@ -142,7 +142,7 @@ export const HeroHeader = () => {
                                 </div>
                                  
                                 
-                                <Link href={'https://accounts.mindlyst.xyz/sign-up'}><Button
+                                <Link href={'/sign-up'}><Button
                                     asChild
                                    
                                     size="sm"
