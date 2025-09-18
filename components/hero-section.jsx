@@ -139,7 +139,7 @@ export default function HeroSection() {
                                         key={1}
                                         className="bg-foreground/10 rounded-[calc(var(--radius-xl)+0.125rem)] border p-0.5">
                                        
-                                            <Link href={'/sign-up'}> <Button asChild size="lg" className="rounded-xl px-5 text-base">
+                                            <Link href={'https://accounts.mindlyst.xyz/sign-up'}> <Button asChild size="lg" className="rounded-xl px-5 text-base">
                                             
                                                 <span className="text-nowrap cursor-pointer">Start Learning Free</span>
                                            
