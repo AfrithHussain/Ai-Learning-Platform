@@ -4,6 +4,7 @@ import { Jost, Geist_Mono } from "next/font/google";
 import Provider from "./provider";
 import { Toaster } from "@/components/ui/sonner";
 import { Analytics } from "@vercel/analytics/next"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 import "./globals.css";
 
 const jost = Jost({ weight: ["500", "700"], subsets: ["latin"], variable: "--font-jost" });
@@ -21,9 +22,10 @@ export default function RootLayout({ children }) {
         {/* 👇 The appearance prop has been removed from here */}
         <ClerkProvider>
           <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
-            <Provider>
+            <Provider>~
               <main>{children}
                 <Analytics/>
+                <SpeedInsights/>
               </main>
             </Provider>
             <Toaster />
