@@ -22,7 +22,7 @@ export default function RootLayout({ children }) {
         {/* 👇 The appearance prop has been removed from here */}
         <ClerkProvider>
           <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
-            <Provider>~
+            <Provider>
               <main>{children}
                 <Analytics/>
                 <SpeedInsights/>
